@@ -65,8 +65,7 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 			}
 			for (int x = beaconX - level; x <= beaconX + level; ++x) {
 				for (int z = beaconZ - level; z <= beaconZ + level; ++z) {
-					final Block block = this.world.getType(new BlockPosition(x, y, z)).getBlock();
-					if (block != Blocks.EMERALD_BLOCK && block != Blocks.GOLD_BLOCK && block != Blocks.DIAMOND_BLOCK && block != Blocks.IRON_BLOCK) {
+					if (!isValidBlock(new BlockPosition(x, y, z))) {
 						return;
 					}
 				}
@@ -78,6 +77,16 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 				entityhuman.b(AchievementList.K);
 			}
 		}
+	}
+
+	private boolean isValidBlock(BlockPosition blockpos) {
+		if (this.world.isLoaded(blockpos)) {
+			Block block = this.world.getType(blockpos).getBlock();
+			if (block == Blocks.EMERALD_BLOCK || block == Blocks.GOLD_BLOCK || block == Blocks.DIAMOND_BLOCK || block == Blocks.IRON_BLOCK) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
