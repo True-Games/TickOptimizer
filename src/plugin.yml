@@ -1,0 +1,5 @@
+name: TickOptimizer
+main: tickoptimizer.TickOptimizer
+version: 1.0
+author: _Shevchik_
+load: STARTUP
