@@ -15,6 +15,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import tickoptimizer.netty.EpollServerConnection;
 import tickoptimizer.utils.Utils;
+import net.minecraft.server.v1_8_R1.ChatComponentText;
 import net.minecraft.server.v1_8_R1.MinecraftServer;
 import net.minecraft.server.v1_8_R1.NetworkManager;
 import net.minecraft.server.v1_8_R1.ServerConnection;
@@ -29,8 +30,11 @@ public class NettyInjector {
 		ChannelHandler serverHandler = channel.pipeline().first();
 		ChannelInitializer<Channel> initializer = (ChannelInitializer<Channel>) Utils.setAccessible(serverHandler.getClass().getDeclaredField("childHandler")).get(serverHandler);
 		InetSocketAddress address = (InetSocketAddress) channel.localAddress();
+		List<NetworkManager> networkmanagerslist = (List<NetworkManager>) Utils.setAccessible(serverConnection.getClass().getDeclaredField("g")).get(serverConnection);
 		channel.config().setAutoRead(false);
-		channel.disconnect().sync();
+		for (NetworkManager networkmanager : networkmanagerslist) {
+			networkmanager.close(new ChatComponentText("Network connection is restarting"));
+		}
 		channel.close().sync();
 		connections.clear();
 		connections.add(
@@ -45,7 +49,7 @@ public class NettyInjector {
 		Utils.setAccessible(MinecraftServer.class.getDeclaredField("q")).set(
 			MinecraftServer.getServer(),
 			new EpollServerConnection(
-				(List<NetworkManager>) Utils.setAccessible(serverConnection.getClass().getDeclaredField("g")).get(serverConnection),
+				networkmanagerslist,
 				connections
 			)
 		);

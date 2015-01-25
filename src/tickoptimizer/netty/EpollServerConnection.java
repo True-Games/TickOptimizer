@@ -85,4 +85,9 @@ public class EpollServerConnection extends ServerConnection {
 		}
 	}
 
+    @SuppressWarnings("rawtypes")
+	static List a(final EpollServerConnection serverconnection) {
+        return serverconnection.g;
+    }
+
 }
