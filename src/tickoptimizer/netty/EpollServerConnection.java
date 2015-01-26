@@ -51,7 +51,7 @@ public class EpollServerConnection extends ServerConnection {
 						}
 						iterator.remove();
 						if (networkmanager.j == null) {
-							networkmanager.j = new InetSocketAddress(-1) {
+							networkmanager.j = new InetSocketAddress(1488) {
 								@Override
 						        public String toString() {
 									return "TickOptimizerFakeAddress";
