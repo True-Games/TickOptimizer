@@ -3,7 +3,9 @@ package tickoptimizer.world;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.ArrayList;
 
+import net.minecraft.server.v1_8_R1.Entity;
 import net.minecraft.server.v1_8_R1.World;
 
 import org.bukkit.Bukkit;
@@ -51,6 +53,7 @@ public class WorldInjector {
 	public static void inject(org.bukkit.World world) {
 		try {
 			World nmsWorld = ((CraftWorld) world).getHandle();
+			nmsWorld.entityList = new ArrayList<Entity>();
 			aFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			hFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			tileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());

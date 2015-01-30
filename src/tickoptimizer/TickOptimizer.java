@@ -14,9 +14,6 @@ public class TickOptimizer extends JavaPlugin {
 		try {
 			ServerInjector.injectUserCache();
 			ServerInjector.injectRegistry();
-			if ("true".equals(System.getProperty("nettyUseEpoll"))) {
-				NettyInjector.injectEpoll();
-			}
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
