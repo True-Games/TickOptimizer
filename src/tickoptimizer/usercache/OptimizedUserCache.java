@@ -51,6 +51,7 @@ public class OptimizedUserCache extends UserCache {
 		if (uuidToProfile.containsKey(uuid)) {
 			stringToProfile.remove(uuidToProfile.get(uuid).getProfile().getName().toLowerCase(Locale.ROOT));
 			stringToProfile.put(playername, entry);
+			uuidToProfile.get(uuid); //push profile to the top of access ordered linkedhashmap
 		} else {
 			uuidToProfile.put(uuid, entry);
 			stringToProfile.put(playername, entry);
