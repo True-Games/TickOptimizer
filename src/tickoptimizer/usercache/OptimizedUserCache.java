@@ -37,6 +37,8 @@ public class OptimizedUserCache extends UserCache {
 	private final HashMap<String, UserCacheEntry> stringToProfile = new HashMap<String, UserCacheEntry>();
 	private File userCacheFile;
 
+	private Object lock = new Object();
+
 	public OptimizedUserCache(MinecraftServer minecraftserver, File file) {
 		super(minecraftserver, file);
 		this.userCacheFile = file;
@@ -48,48 +50,56 @@ public class OptimizedUserCache extends UserCache {
 		String playername = gameProfile.getName().toLowerCase(Locale.ROOT);
 		UUID uuid = gameProfile.getId();
 		UserCacheEntry entry = new UserCacheEntry(gameProfile);
-		if (uuidToProfile.containsKey(uuid)) {
-			stringToProfile.remove(uuidToProfile.get(uuid).getProfile().getName().toLowerCase(Locale.ROOT));
-			stringToProfile.put(playername, entry);
-			uuidToProfile.get(uuid); //push profile to the top of access ordered linkedhashmap
-		} else {
-			uuidToProfile.put(uuid, entry);
-			stringToProfile.put(playername, entry);
+		synchronized (lock) {
+			if (uuidToProfile.containsKey(uuid)) {
+				stringToProfile.remove(uuidToProfile.get(uuid).getProfile().getName().toLowerCase(Locale.ROOT));
+				stringToProfile.put(playername, entry);
+				uuidToProfile.get(uuid); //push profile to the top of access ordered linkedhashmap
+			} else {
+				uuidToProfile.put(uuid, entry);
+				stringToProfile.put(playername, entry);
+			}
 		}
 	}
 
 	@Override
 	public GameProfile getProfile(String name) {
 		String playername = name.toLowerCase(Locale.ROOT);
-		UserCacheEntry entry = stringToProfile.get(playername);
-		if (entry != null && entry.isExpired()) {
-			stringToProfile.remove(playername);
-			uuidToProfile.remove(entry.getProfile().getId());
-			return null;
-		}
-		if (entry != null) {
-			uuidToProfile.get(entry.getProfile().getId()); //push profile to the top of access ordered linkedhashmap
-			return entry.getProfile();
-		} else {
-			GameProfile profile = lookupProfile(MinecraftServer.getServer(), playername);
-			if (profile != null) {
-				a(profile);
-				return profile;
+		synchronized (lock) {
+			UserCacheEntry entry = stringToProfile.get(playername);
+			if (entry != null && entry.isExpired()) {
+				stringToProfile.remove(playername);
+				uuidToProfile.remove(entry.getProfile().getId());
+				return null;
 			}
-			return null;
+			if (entry != null) {
+				uuidToProfile.get(entry.getProfile().getId()); //push profile to the top of access ordered linkedhashmap
+				return entry.getProfile();
+			} else {
+				GameProfile profile = lookupProfile(MinecraftServer.getServer(), playername);
+				if (profile != null) {
+					a(profile);
+					return profile;
+				}
+				return null;
+			}
 		}
 	}
 
 	@Override
 	public GameProfile a(UUID uuid) {
-		UserCacheEntry entry = uuidToProfile.get(uuid);
-		return entry == null ? null : entry.getProfile();
+		synchronized (lock) {
+			UserCacheEntry entry = uuidToProfile.get(uuid);
+			return entry == null ? null : entry.getProfile();
+		}
 	}
 
 	@Override
 	public String[] a() {
-		ArrayList<String> list = Lists.newArrayList(stringToProfile.keySet());
-		return list.toArray(new String[list.size()]);
+		synchronized (lock) {
+			ArrayList<String> list = Lists.newArrayList(stringToProfile.keySet());
+			return list.toArray(new String[list.size()]);
+		}
 	}
 
 	@Override
@@ -139,7 +149,7 @@ public class OptimizedUserCache extends UserCache {
 		}
 	}
 
-	private GameProfile lookupProfile(MinecraftServer minecraftserver, String name) {
+	private static GameProfile lookupProfile(MinecraftServer minecraftserver, String name) {
 		GameProfile[] gameProfileArrayHolder = new GameProfile[1];
 		GameProfileLookup gameProfileLookup = new GameProfileLookup(gameProfileArrayHolder);
 		minecraftserver.getGameProfileRepository().findProfilesByNames(new String[] { name }, Agent.MINECRAFT, gameProfileLookup);
