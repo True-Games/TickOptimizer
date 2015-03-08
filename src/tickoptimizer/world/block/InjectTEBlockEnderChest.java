@@ -1,10 +1,10 @@
 package tickoptimizer.world.block;
 
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.BlockEnderChest;
-import net.minecraft.server.v1_8_R1.TileEntity;
-import net.minecraft.server.v1_8_R1.World;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockEnderChest;
+import net.minecraft.server.v1_8_R2.TileEntity;
+import net.minecraft.server.v1_8_R2.World;
 
 public class InjectTEBlockEnderChest extends BlockEnderChest {
 

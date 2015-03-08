@@ -1,17 +1,15 @@
 package tickoptimizer.world.entity;
 
-import java.util.List;
-
-import net.minecraft.server.v1_8_R1.AxisAlignedBB;
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.BlockDiodeAbstract;
-import net.minecraft.server.v1_8_R1.BlockPosition;
-import net.minecraft.server.v1_8_R1.Blocks;
-import net.minecraft.server.v1_8_R1.Entity;
-import net.minecraft.server.v1_8_R1.EntityHanging;
-import net.minecraft.server.v1_8_R1.EntityItemFrame;
-import net.minecraft.server.v1_8_R1.EnumDirection;
-import net.minecraft.server.v1_8_R1.World;
+import net.minecraft.server.v1_8_R2.AxisAlignedBB;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockDiodeAbstract;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.Blocks;
+import net.minecraft.server.v1_8_R2.Entity;
+import net.minecraft.server.v1_8_R2.EntityHanging;
+import net.minecraft.server.v1_8_R2.EntityItemFrame;
+import net.minecraft.server.v1_8_R2.EnumDirection;
+import net.minecraft.server.v1_8_R2.World;
 
 public class OptimizedEntityItemFrame extends EntityItemFrame {
 
@@ -32,12 +30,12 @@ public class OptimizedEntityItemFrame extends EntityItemFrame {
 		Block blockAt = world.getType(blockPosition).getBlock();
 		if (blockAt != Blocks.AIR) {
 			AxisAlignedBB blockbounds = AxisAlignedBB.a(
-				blockPosition.getX() + blockAt.z(),
-				blockPosition.getY() + blockAt.B(),
-				blockPosition.getZ() + blockAt.D(),
-				blockPosition.getX() + blockAt.A(),
-				blockPosition.getY() + blockAt.C(),
-				blockPosition.getZ() + blockAt.E()
+				blockPosition.getX() + blockAt.B(),
+				blockPosition.getY() + blockAt.D(),
+				blockPosition.getZ() + blockAt.F(),
+				blockPosition.getX() + blockAt.C(),
+				blockPosition.getY() + blockAt.E(),
+				blockPosition.getZ() + blockAt.G()
 			);
 			if (getBoundingBox().b(blockbounds)) {
 				return false;
@@ -50,9 +48,7 @@ public class OptimizedEntityItemFrame extends EntityItemFrame {
 		if (!survives()) {
 			return false;
 		}
-		@SuppressWarnings("unchecked")
-		List<Entity> entityList = this.world.getEntities(this, this.getBoundingBox());
-		for (Entity entity : entityList) {
+		for (Entity entity : this.world.getEntities(this, this.getBoundingBox())) {
 			if (entity instanceof EntityHanging) {
 				return false;
 			}

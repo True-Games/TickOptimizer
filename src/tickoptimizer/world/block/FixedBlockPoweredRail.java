@@ -1,12 +1,11 @@
 package tickoptimizer.world.block;
 
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.BlockPosition;
-import net.minecraft.server.v1_8_R1.BlockPoweredRail;
-import net.minecraft.server.v1_8_R1.EnumTrackPosition;
-import net.minecraft.server.v1_8_R1.IBlockData;
-import net.minecraft.server.v1_8_R1.Material;
-import net.minecraft.server.v1_8_R1.World;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.BlockPoweredRail;
+import net.minecraft.server.v1_8_R2.IBlockData;
+import net.minecraft.server.v1_8_R2.Material;
+import net.minecraft.server.v1_8_R2.World;
 
 public class FixedBlockPoweredRail extends BlockPoweredRail {
 
@@ -18,7 +17,7 @@ public class FixedBlockPoweredRail extends BlockPoweredRail {
 
 	@Override
 	public void doPhysics(final World world, final BlockPosition air, final IBlockData blockData, final Block block) {
-		final EnumTrackPosition enumTrackPosition = (EnumTrackPosition) blockData.get(this.l());
+		final EnumTrackPosition enumTrackPosition = blockData.get(this.n());
 		if (
 			!World.a(world, air.down()) ||
 			(enumTrackPosition == EnumTrackPosition.ASCENDING_EAST && !World.a(world, air.east())) ||

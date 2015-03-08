@@ -2,15 +2,15 @@ package tickoptimizer.world.tileentity;
 
 import java.util.List;
 
-import net.minecraft.server.v1_8_R1.AchievementList;
-import net.minecraft.server.v1_8_R1.AxisAlignedBB;
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.BlockPosition;
-import net.minecraft.server.v1_8_R1.Blocks;
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.MobEffect;
-import net.minecraft.server.v1_8_R1.NBTTagCompound;
-import net.minecraft.server.v1_8_R1.TileEntityBeacon;
+import net.minecraft.server.v1_8_R2.AchievementList;
+import net.minecraft.server.v1_8_R2.AxisAlignedBB;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockPosition;
+import net.minecraft.server.v1_8_R2.Blocks;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.MobEffect;
+import net.minecraft.server.v1_8_R2.NBTTagCompound;
+import net.minecraft.server.v1_8_R2.TileEntityBeacon;
 
 public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 
@@ -24,7 +24,6 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 		checkStructure();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void addEffects() {
 		if (this.levels > 0 && this.primary > 0) {
 			final double aoe = this.levels * 10 + 10;
@@ -48,7 +47,6 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void checkStructure() {
 		int prevLevels = this.levels;
 		this.levels = 0;

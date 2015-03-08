@@ -1,7 +1,7 @@
 package tickoptimizer.world.tileentity;
 
-import net.minecraft.server.v1_8_R1.Blocks;
-import net.minecraft.server.v1_8_R1.TileEntityEnderChest;
+import net.minecraft.server.v1_8_R2.Blocks;
+import net.minecraft.server.v1_8_R2.TileEntityEnderChest;
 
 public class OptimizedTileEntityEnderChest extends TileEntityEnderChest {
 

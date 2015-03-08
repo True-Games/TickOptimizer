@@ -1,7 +1,7 @@
 package tickoptimizer.world.tileentity;
 
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.TileEntityChest;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.TileEntityChest;
 
 public class MovedSoundTileEntityChest extends TileEntityChest {
 

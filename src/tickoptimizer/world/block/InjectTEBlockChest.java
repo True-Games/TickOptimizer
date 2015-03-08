@@ -1,11 +1,12 @@
 package tickoptimizer.world.block;
 
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
-import net.minecraft.server.v1_8_R1.Block;
-import net.minecraft.server.v1_8_R1.TileEntity;
-import net.minecraft.server.v1_8_R1.World;
+import net.minecraft.server.v1_8_R2.Block;
+import net.minecraft.server.v1_8_R2.BlockChest;
+import net.minecraft.server.v1_8_R2.TileEntity;
+import net.minecraft.server.v1_8_R2.World;
 
-public abstract class InjectTEBlockChest extends net.minecraft.server.v1_8_R1.BlockChest {
+public abstract class InjectTEBlockChest extends BlockChest {
 
 	protected InjectTEBlockChest(int i) {
 		super(i);

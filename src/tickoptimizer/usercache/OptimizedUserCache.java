@@ -14,19 +14,19 @@ import java.util.UUID;
 
 import org.spigotmc.SpigotConfig;
 
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.MinecraftServer;
-import net.minecraft.server.v1_8_R1.UserCache;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R2.UserCache;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 
 import org.apache.commons.io.IOUtils;
-import org.bukkit.craftbukkit.libs.com.google.gson.Gson;
-import org.bukkit.craftbukkit.libs.com.google.gson.GsonBuilder;
 
 public class OptimizedUserCache extends UserCache {
 
@@ -75,15 +75,14 @@ public class OptimizedUserCache extends UserCache {
 			if (entry != null) {
 				uuidToProfile.get(entry.getProfile().getId()); //push profile to the top of access ordered linkedhashmap
 				return entry.getProfile();
-			} else {
-				GameProfile profile = lookupProfile(MinecraftServer.getServer(), playername);
-				if (profile != null) {
-					a(profile);
-					return profile;
-				}
-				return null;
 			}
 		}
+		GameProfile profile = lookupProfile(MinecraftServer.getServer(), playername);
+		if (profile != null) {
+			a(profile);
+			return profile;
+		}
+		return null;
 	}
 
 	@Override
