@@ -37,7 +37,7 @@ public class OptimizedUserCache extends UserCache {
 	private final HashMap<String, UserCacheEntry> stringToProfile = new HashMap<String, UserCacheEntry>();
 	private File userCacheFile;
 
-	private Object lock = new Object();
+	private final Object lock = new Object();
 
 	public OptimizedUserCache(MinecraftServer minecraftserver, File file) {
 		super(minecraftserver, file);
@@ -67,14 +67,14 @@ public class OptimizedUserCache extends UserCache {
 		String playername = name.toLowerCase(Locale.ROOT);
 		synchronized (lock) {
 			UserCacheEntry entry = stringToProfile.get(playername);
-			if (entry != null && entry.isExpired()) {
-				stringToProfile.remove(playername);
-				uuidToProfile.remove(entry.getProfile().getId());
-				return null;
-			}
 			if (entry != null) {
-				uuidToProfile.get(entry.getProfile().getId()); //push profile to the top of access ordered linkedhashmap
-				return entry.getProfile();
+				if (entry.isExpired()) {
+					stringToProfile.remove(playername);
+					uuidToProfile.remove(entry.getProfile().getId());
+				} else {
+					uuidToProfile.get(entry.getProfile().getId()); //push profile to the top of access ordered linkedhashmap
+					return entry.getProfile();
+				}
 			}
 		}
 		GameProfile profile = lookupProfile(MinecraftServer.getServer(), playername);
