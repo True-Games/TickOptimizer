@@ -12,7 +12,7 @@ public class MovedSoundTileEntityChest extends TileEntityChest {
 		if (this.getWorld() == null) {
 			return;
 		}
-		if (this.f == null && this.h == null && this.getViewers().size() == 0) {
+		if (this.f == null && this.h == null && this.getViewers().isEmpty()) {
 			double x = this.position.getX() + 0.5;
 			double z = this.position.getZ() + 0.5;
 			if (this.i != null) {
@@ -32,7 +32,7 @@ public class MovedSoundTileEntityChest extends TileEntityChest {
 		if (this.getWorld() == null) {
 			return;
 		}
-		if (this.f == null && this.h == null && this.getViewers().size() == 1) {
+		if (this.f == null && this.h == null && !this.getViewers().isEmpty()) {
 			double x = this.position.getX() + 0.5;
 			double z = this.position.getZ() + 0.5;
 			if (this.i != null) {

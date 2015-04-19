@@ -8,6 +8,7 @@ import java.util.Map;
 import net.minecraft.server.v1_8_R2.Block;
 import net.minecraft.server.v1_8_R2.Blocks;
 import net.minecraft.server.v1_8_R2.Entity;
+import net.minecraft.server.v1_8_R2.EntityMinecartAbstract.EnumMinecartType;
 import net.minecraft.server.v1_8_R2.EntityTypes;
 import net.minecraft.server.v1_8_R2.IBlockData;
 import net.minecraft.server.v1_8_R2.Item;
@@ -27,13 +28,17 @@ import tickoptimizer.world.block.FixedBlockMinecartTrack;
 import tickoptimizer.world.block.FixedBlockPoweredRail;
 import tickoptimizer.world.block.InjectTEBlockBeacon;
 import tickoptimizer.world.block.InjectTEBlockEnderChest;
+import tickoptimizer.world.block.InjectTEBlockHopper;
 import tickoptimizer.world.block.InjectTEBlockNormalChest;
 import tickoptimizer.world.block.InjectTEBlockTrappedChest;
 import tickoptimizer.world.entity.OptimizedEntityItemFrame;
+import tickoptimizer.world.entity.OptimizedEntityMinecartHopper;
 import tickoptimizer.world.item.InjectEntityItemFrame;
+import tickoptimizer.world.item.InjectEntityItemMinecartHopper;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
+import tickoptimizer.world.tileentity.OptimizedTileEntityHopper;
 
 public class ServerInjector {
 
@@ -56,12 +61,18 @@ public class ServerInjector {
 		registerTileEntity("EnderChest", OptimizedTileEntityEnderChest.class);
 		registerBlock(130, "ender_chest", new InjectTEBlockEnderChest());
 
+		registerTileEntity("Hopper", OptimizedTileEntityHopper.class);
+		registerBlock(154, "hopper", new InjectTEBlockHopper());
+
 		registerBlock(27, "golden_rail", new FixedBlockPoweredRail());
 		registerBlock(28, "detector_rail", new FixedBlockMinecartDetector());
 		registerBlock(66, "rail", new FixedBlockMinecartTrack());
 
 		registerEntity(18, "ItemFrame", OptimizedEntityItemFrame.class);
 		registerItem(389, "item_frame", new InjectEntityItemFrame());
+
+		registerEntity(46, EnumMinecartType.HOPPER.b(), OptimizedEntityMinecartHopper.class);
+		registerItem(408, "hopper_minecart", new InjectEntityItemMinecartHopper());
 
 		fixBlocksRefs();
 		fixItemsRefs();
