@@ -35,7 +35,7 @@ public class HopperInventoryUtils {
 				int addcount = Math.min(stack.count, containeritem.getMaxStackSize() - containeritem.count);
 				containeritem.count += addcount;
 				stack.count -= addcount;
-				added = addcount > 0;
+				added = true;
 				if (stack.count == 0) {
 					stack = null;
 					break;
