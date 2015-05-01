@@ -14,6 +14,7 @@ import net.minecraft.server.v1_8_R2.IBlockData;
 import net.minecraft.server.v1_8_R2.Item;
 import net.minecraft.server.v1_8_R2.ItemBlock;
 import net.minecraft.server.v1_8_R2.Items;
+import net.minecraft.server.v1_8_R2.Material;
 import net.minecraft.server.v1_8_R2.MinecraftKey;
 import net.minecraft.server.v1_8_R2.MinecraftServer;
 import net.minecraft.server.v1_8_R2.TileEntity;
@@ -31,8 +32,10 @@ import tickoptimizer.world.block.InjectTEBlockEnderChest;
 import tickoptimizer.world.block.InjectTEBlockHopper;
 import tickoptimizer.world.block.InjectTEBlockNormalChest;
 import tickoptimizer.world.block.InjectTEBlockTrappedChest;
+import tickoptimizer.world.block.OptimizedBlockFlowing;
 import tickoptimizer.world.entity.OptimizedEntityItemFrame;
 import tickoptimizer.world.entity.OptimizedEntityMinecartHopper;
+import tickoptimizer.world.item.FixedBlockRefItemBucket;
 import tickoptimizer.world.item.InjectEntityItemFrame;
 import tickoptimizer.world.item.InjectEntityItemMinecartHopper;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
@@ -73,6 +76,15 @@ public class ServerInjector {
 
 		registerEntity(46, EnumMinecartType.HOPPER.b(), OptimizedEntityMinecartHopper.class);
 		registerItem(408, "hopper_minecart", new InjectEntityItemMinecartHopper());
+
+		OptimizedBlockFlowing water_flowing = new OptimizedBlockFlowing(Material.WATER, true);
+		registerBlock(8, "flowing_water", water_flowing);
+		OptimizedBlockFlowing lava_flowing = new OptimizedBlockFlowing(Material.LAVA, false);
+		registerBlock(10, "flowing_lava", lava_flowing);
+		registerItem(326, "water_bucket", new FixedBlockRefItemBucket(water_flowing, true));
+		registerItem(327, "lava_bucket", new FixedBlockRefItemBucket(lava_flowing, false));
+
+		
 
 		fixBlocksRefs();
 		fixItemsRefs();
