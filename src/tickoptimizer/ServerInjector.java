@@ -29,7 +29,6 @@ import tickoptimizer.world.block.FixedBlockMinecartTrack;
 import tickoptimizer.world.block.FixedBlockPoweredRail;
 import tickoptimizer.world.block.InjectTEBlockBeacon;
 import tickoptimizer.world.block.InjectTEBlockEnderChest;
-import tickoptimizer.world.block.InjectTEBlockHopper;
 import tickoptimizer.world.block.InjectTEBlockNormalChest;
 import tickoptimizer.world.block.InjectTEBlockTrappedChest;
 import tickoptimizer.world.block.OptimizedBlockFlowing;
@@ -41,7 +40,6 @@ import tickoptimizer.world.item.InjectEntityItemMinecartHopper;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
-import tickoptimizer.world.tileentity.OptimizedTileEntityHopper;
 
 public class ServerInjector {
 
@@ -63,9 +61,6 @@ public class ServerInjector {
 
 		registerTileEntity("EnderChest", OptimizedTileEntityEnderChest.class);
 		registerBlock(130, "ender_chest", new InjectTEBlockEnderChest());
-
-		registerTileEntity("Hopper", OptimizedTileEntityHopper.class);
-		registerBlock(154, "hopper", new InjectTEBlockHopper());
 
 		registerBlock(27, "golden_rail", new FixedBlockPoweredRail());
 		registerBlock(28, "detector_rail", new FixedBlockMinecartDetector());

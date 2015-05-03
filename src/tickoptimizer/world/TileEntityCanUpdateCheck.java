@@ -3,7 +3,6 @@ package tickoptimizer.world;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
-import tickoptimizer.world.tileentity.OptimizedTileEntityHopper;
 import net.minecraft.server.v1_8_R2.BlockJukeBox.TileEntityRecordPlayer;
 import net.minecraft.server.v1_8_R2.TileEntity;
 import net.minecraft.server.v1_8_R2.TileEntityBanner;
@@ -52,7 +51,6 @@ public class TileEntityCanUpdateCheck {
 		canUpdate.put(TileEntityRecordPlayer.class, (byte) 0);
 		canUpdate.put(TileEntitySign.class, (byte) 0);
 		canUpdate.put(TileEntitySkull.class, (byte) 0);
-		canUpdate.put(OptimizedTileEntityHopper.class, (byte) 1);
 		canUpdate.put(OptimizedTileEntityBeacon.class, (byte) 1);
 		canUpdate.put(OptimizedTileEntityEnderChest.class, (byte) 0);
 		canUpdate.put(MovedSoundTileEntityChest.class, (byte) 0);
