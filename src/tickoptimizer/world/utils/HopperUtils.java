@@ -2,22 +2,22 @@ package tickoptimizer.world.utils;
 
 import java.util.List;
 
-import net.minecraft.server.v1_8_R2.AxisAlignedBB;
-import net.minecraft.server.v1_8_R2.EntityItem;
-import net.minecraft.server.v1_8_R2.EntityMinecartHopper;
-import net.minecraft.server.v1_8_R2.EnumDirection;
-import net.minecraft.server.v1_8_R2.IEntitySelector;
-import net.minecraft.server.v1_8_R2.IHopper;
-import net.minecraft.server.v1_8_R2.IInventory;
-import net.minecraft.server.v1_8_R2.IWorldInventory;
-import net.minecraft.server.v1_8_R2.InventoryLargeChest;
-import net.minecraft.server.v1_8_R2.ItemStack;
-import net.minecraft.server.v1_8_R2.TileEntityHopper;
-import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R3.AxisAlignedBB;
+import net.minecraft.server.v1_8_R3.EntityItem;
+import net.minecraft.server.v1_8_R3.EntityMinecartHopper;
+import net.minecraft.server.v1_8_R3.EnumDirection;
+import net.minecraft.server.v1_8_R3.IEntitySelector;
+import net.minecraft.server.v1_8_R3.IHopper;
+import net.minecraft.server.v1_8_R3.IInventory;
+import net.minecraft.server.v1_8_R3.IWorldInventory;
+import net.minecraft.server.v1_8_R3.InventoryLargeChest;
+import net.minecraft.server.v1_8_R3.ItemStack;
+import net.minecraft.server.v1_8_R3.TileEntityHopper;
+import net.minecraft.server.v1_8_R3.World;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventoryDoubleChest;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryDoubleChest;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 

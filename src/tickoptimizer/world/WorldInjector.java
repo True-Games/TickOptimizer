@@ -5,11 +5,11 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.util.ArrayList;
 
-import net.minecraft.server.v1_8_R2.Entity;
-import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R3.Entity;
+import net.minecraft.server.v1_8_R3.World;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 
 import tickoptimizer.utils.Utils;
 
@@ -22,7 +22,7 @@ public class WorldInjector {
 
 	private static MethodHandle getUnknownTileEntityListFieldSetter() {
 		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R2.World.class.getDeclaredField("h")));
+			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("h")));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
@@ -32,7 +32,7 @@ public class WorldInjector {
 
 	private static MethodHandle getEntityListFieldSetter() {
 		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R2.World.class.getDeclaredField("entityList")));
+			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("entityList")));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
@@ -42,7 +42,7 @@ public class WorldInjector {
 
 	private static MethodHandle getPendingTileEntityFieldSetter() {
 		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R2.World.class.getDeclaredField("b")));
+			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("b")));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
@@ -52,7 +52,7 @@ public class WorldInjector {
 
 	private static MethodHandle getTileEntityListFieldSetter() {
 		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R2.World.class.getDeclaredField("tileEntityList")));
+			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("tileEntityList")));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();

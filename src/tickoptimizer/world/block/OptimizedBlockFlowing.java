@@ -5,21 +5,21 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.server.v1_8_R2.BlockDoor;
-import net.minecraft.server.v1_8_R2.BlockFlowing;
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.Blocks;
-import net.minecraft.server.v1_8_R2.EnumDirection;
-import net.minecraft.server.v1_8_R2.EnumDirection.EnumDirectionLimit;
-import net.minecraft.server.v1_8_R2.IBlockData;
-import net.minecraft.server.v1_8_R2.Material;
-import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R3.BlockDoor;
+import net.minecraft.server.v1_8_R3.BlockFlowing;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.Blocks;
+import net.minecraft.server.v1_8_R3.EnumDirection;
+import net.minecraft.server.v1_8_R3.EnumDirection.EnumDirectionLimit;
+import net.minecraft.server.v1_8_R3.IBlockData;
+import net.minecraft.server.v1_8_R3.Material;
+import net.minecraft.server.v1_8_R3.World;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.block.CraftBlock;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
 import org.bukkit.event.block.BlockFromToEvent;
 
 public class OptimizedBlockFlowing extends BlockFlowing {
@@ -230,7 +230,7 @@ public class OptimizedBlockFlowing extends BlockFlowing {
 	}
 
 	private boolean g(World world, BlockPosition blockposition, IBlockData iblockdata) {
-		net.minecraft.server.v1_8_R2.Block block = world.getType(blockposition).getBlock();
+		net.minecraft.server.v1_8_R3.Block block = world.getType(blockposition).getBlock();
 		return !(block instanceof BlockDoor) && (block != Blocks.STANDING_SIGN) && (block != Blocks.LADDER) && (block != Blocks.REEDS) ? (block.getMaterial() == Material.PORTAL ? true : block.getMaterial().isSolid()) : true;
 	}
 

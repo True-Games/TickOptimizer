@@ -1,6 +1,6 @@
 package tickoptimizer;
 
-import net.minecraft.server.v1_8_R2.MinecraftServer;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

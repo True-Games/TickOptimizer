@@ -3,10 +3,10 @@ package tickoptimizer.world.entity;
 import java.util.List;
 
 import tickoptimizer.world.utils.HopperUtils;
-import net.minecraft.server.v1_8_R2.EntityItem;
-import net.minecraft.server.v1_8_R2.EntityMinecartHopper;
-import net.minecraft.server.v1_8_R2.IEntitySelector;
-import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R3.EntityItem;
+import net.minecraft.server.v1_8_R3.EntityMinecartHopper;
+import net.minecraft.server.v1_8_R3.IEntitySelector;
+import net.minecraft.server.v1_8_R3.World;
 
 public class OptimizedEntityMinecartHopper extends EntityMinecartHopper {
 

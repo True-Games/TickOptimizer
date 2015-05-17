@@ -8,13 +8,13 @@ import org.bukkit.event.hanging.HangingPlaceEvent;
 
 import tickoptimizer.world.entity.OptimizedEntityItemFrame;
 
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EnumDirection;
-import net.minecraft.server.v1_8_R2.ItemHanging;
-import net.minecraft.server.v1_8_R2.ItemStack;
-import net.minecraft.server.v1_8_R2.World;
-import org.bukkit.craftbukkit.v1_8_R2.block.CraftBlock;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EnumDirection;
+import net.minecraft.server.v1_8_R3.ItemHanging;
+import net.minecraft.server.v1_8_R3.ItemStack;
+import net.minecraft.server.v1_8_R3.World;
+import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock;
 
 public class InjectEntityItemFrame extends ItemHanging {
 

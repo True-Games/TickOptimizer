@@ -14,9 +14,9 @@ import java.util.UUID;
 
 import org.spigotmc.SpigotConfig;
 
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.MinecraftServer;
-import net.minecraft.server.v1_8_R2.UserCache;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.UserCache;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;

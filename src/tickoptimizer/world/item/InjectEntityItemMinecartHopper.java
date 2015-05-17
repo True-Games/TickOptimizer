@@ -1,20 +1,20 @@
 package tickoptimizer.world.item;
 
-import org.bukkit.craftbukkit.v1_8_R2.event.CraftEventFactory;
+import org.bukkit.craftbukkit.v1_8_R3.event.CraftEventFactory;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import tickoptimizer.world.entity.OptimizedEntityMinecartHopper;
-import net.minecraft.server.v1_8_R2.BlockMinecartTrackAbstract;
-import net.minecraft.server.v1_8_R2.BlockMinecartTrackAbstract.EnumTrackPosition;
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityMinecartAbstract.EnumMinecartType;
-import net.minecraft.server.v1_8_R2.EnumDirection;
-import net.minecraft.server.v1_8_R2.IBlockData;
-import net.minecraft.server.v1_8_R2.ItemMinecart;
-import net.minecraft.server.v1_8_R2.ItemStack;
-import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R3.BlockMinecartTrackAbstract;
+import net.minecraft.server.v1_8_R3.BlockMinecartTrackAbstract.EnumTrackPosition;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityMinecartAbstract.EnumMinecartType;
+import net.minecraft.server.v1_8_R3.EnumDirection;
+import net.minecraft.server.v1_8_R3.IBlockData;
+import net.minecraft.server.v1_8_R3.ItemMinecart;
+import net.minecraft.server.v1_8_R3.ItemStack;
+import net.minecraft.server.v1_8_R3.World;
 
 public class InjectEntityItemMinecartHopper extends ItemMinecart {
 
