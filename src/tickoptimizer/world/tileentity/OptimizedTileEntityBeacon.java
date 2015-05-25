@@ -9,6 +9,7 @@ import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.MobEffect;
+import net.minecraft.server.v1_8_R3.MobEffectList;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.TileEntityBeacon;
 
@@ -137,6 +138,21 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 		nbttagcompound.setInt("Primary", this.primary);
 		nbttagcompound.setInt("Secondary", this.secondary);
 		nbttagcompound.setInt("Levels", this.levels);
+	}
+
+	private int validateEffect(int input) {
+		if (input >= 0 && input < MobEffectList.byId.length && MobEffectList.byId[input] != null) {
+			final MobEffectList mobeffectlist = MobEffectList.byId[input];
+			return (
+				mobeffectlist != MobEffectList.FASTER_MOVEMENT &&
+				mobeffectlist != MobEffectList.FASTER_DIG &&
+				mobeffectlist != MobEffectList.RESISTANCE &&
+				mobeffectlist != MobEffectList.JUMP &&
+				mobeffectlist != MobEffectList.INCREASE_DAMAGE &&
+				mobeffectlist != MobEffectList.REGENERATION
+			) ? 0 : input;
+		}
+		return 0;
 	}
 
 }
