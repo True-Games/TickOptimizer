@@ -24,9 +24,6 @@ import org.bukkit.Bukkit;
 
 import tickoptimizer.usercache.OptimizedUserCache;
 import tickoptimizer.utils.Utils;
-import tickoptimizer.world.block.FixedBlockMinecartDetector;
-import tickoptimizer.world.block.FixedBlockMinecartTrack;
-import tickoptimizer.world.block.FixedBlockPoweredRail;
 import tickoptimizer.world.block.InjectTEBlockBeacon;
 import tickoptimizer.world.block.InjectTEBlockEnderChest;
 import tickoptimizer.world.block.InjectTEBlockNormalChest;
@@ -61,10 +58,6 @@ public class ServerInjector {
 
 		registerTileEntity("EnderChest", OptimizedTileEntityEnderChest.class);
 		registerBlock(130, "ender_chest", new InjectTEBlockEnderChest());
-
-		registerBlock(27, "golden_rail", new FixedBlockPoweredRail());
-		registerBlock(28, "detector_rail", new FixedBlockMinecartDetector());
-		registerBlock(66, "rail", new FixedBlockMinecartTrack());
 
 		registerEntity(18, "ItemFrame", OptimizedEntityItemFrame.class);
 		registerItem(389, "item_frame", new InjectEntityItemFrame());
