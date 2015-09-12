@@ -16,10 +16,10 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.mojang.authlib.GameProfile;
 
-public class UserCacheEntryJsonSerializer implements JsonDeserializer<UserCacheEntry>, JsonSerializer<UserCacheEntry> {
+public class UserCacheEntryJsonSerializer implements JsonDeserializer<UserCacheFileEntry>, JsonSerializer<UserCacheFileEntry> {
 
 	@Override
-	public JsonElement serialize(UserCacheEntry entry, Type type, JsonSerializationContext ctx) {
+	public JsonElement serialize(UserCacheFileEntry entry, Type type, JsonSerializationContext ctx) {
 		JsonObject jsonobject = new JsonObject();
 		jsonobject.addProperty("name", entry.getProfile().getName());
 		UUID uuid = entry.getProfile().getId();
@@ -29,7 +29,7 @@ public class UserCacheEntryJsonSerializer implements JsonDeserializer<UserCacheE
 	}
 
 	@Override
-	public UserCacheEntry deserialize(JsonElement element, Type type, JsonDeserializationContext ctx) throws JsonParseException {
+	public UserCacheFileEntry deserialize(JsonElement element, Type type, JsonDeserializationContext ctx) throws JsonParseException {
 		if (element.isJsonObject()) {
 			JsonObject jsonobject = element.getAsJsonObject();
 			JsonElement nameElement = jsonobject.get("name");
@@ -53,7 +53,7 @@ public class UserCacheEntryJsonSerializer implements JsonDeserializer<UserCacheE
 					} catch (Throwable throwable) {
 						return null;
 					}
-					UserCacheEntry usercacheentry = new UserCacheEntry(new GameProfile(uuid, uuidstring), date);
+					UserCacheFileEntry usercacheentry = new UserCacheFileEntry(new GameProfile(uuid, uuidstring), date);
 
 					return usercacheentry;
 				}

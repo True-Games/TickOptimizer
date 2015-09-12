@@ -9,7 +9,7 @@ public class UserCacheEntryType implements ParameterizedType {
 	@Override
 	public Type[] getActualTypeArguments() {
 		return new Type[] {
-			UserCacheEntry.class
+			UserCacheFileEntry.class
 		};
 	}
 
