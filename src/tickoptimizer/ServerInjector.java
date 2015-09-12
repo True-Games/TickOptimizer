@@ -9,14 +9,18 @@ import net.minecraft.server.v1_8_R3.Block;
 import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityMinecartAbstract.EnumMinecartType;
+import net.minecraft.server.v1_8_R3.BlockDispenser;
+import net.minecraft.server.v1_8_R3.DispenseBehaviorItem;
 import net.minecraft.server.v1_8_R3.EntityTypes;
 import net.minecraft.server.v1_8_R3.IBlockData;
+import net.minecraft.server.v1_8_R3.IDispenseBehavior;
 import net.minecraft.server.v1_8_R3.Item;
 import net.minecraft.server.v1_8_R3.ItemBlock;
 import net.minecraft.server.v1_8_R3.Items;
 import net.minecraft.server.v1_8_R3.Material;
 import net.minecraft.server.v1_8_R3.MinecraftKey;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
+import net.minecraft.server.v1_8_R3.RegistryDefault;
 import net.minecraft.server.v1_8_R3.TileEntity;
 import net.minecraft.server.v1_8_R3.UserCache;
 
@@ -72,11 +76,11 @@ public class ServerInjector {
 		registerItem(326, "water_bucket", new FixedBlockRefItemBucket(water_flowing, true));
 		registerItem(327, "lava_bucket", new FixedBlockRefItemBucket(lava_flowing, false));
 
-		
-
 		fixBlocksRefs();
 		fixItemsRefs();
-		Bukkit.resetRecipes();
+		fixDispenserRegistry();
+
+		Bukkit.resetRecipes(); //TODO: replace with actual recipe items fixing
 	}
 
 
@@ -139,6 +143,16 @@ public class ServerInjector {
 				}
 			}
 		}
+	}
+
+	private static final void fixDispenserRegistry() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+		RegistryDefault<Item, IDispenseBehavior> oldRegistry = BlockDispenser.REGISTRY;
+		RegistryDefault<Item, IDispenseBehavior> newRegisrty = new RegistryDefault<Item, IDispenseBehavior>(new DispenseBehaviorItem());
+		for (Item oldItem : oldRegistry.keySet()) {
+			Item newItem = Item.getById(Item.getId(oldItem));
+			newRegisrty.a(newItem, oldRegistry.get(oldItem));
+		}
+		Utils.setFinalField(BlockDispenser.class.getDeclaredField("REGISTRY"), null, newRegisrty);
 	}
 
 }
