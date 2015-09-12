@@ -2,6 +2,7 @@ package tickoptimizer;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -10,7 +11,6 @@ import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.Entity;
 import net.minecraft.server.v1_8_R3.EntityMinecartAbstract.EnumMinecartType;
 import net.minecraft.server.v1_8_R3.BlockDispenser;
-import net.minecraft.server.v1_8_R3.DispenseBehaviorItem;
 import net.minecraft.server.v1_8_R3.EntityTypes;
 import net.minecraft.server.v1_8_R3.IBlockData;
 import net.minecraft.server.v1_8_R3.IDispenseBehavior;
@@ -145,14 +145,14 @@ public class ServerInjector {
 		}
 	}
 
-	private static final void fixDispenserRegistry() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-		RegistryDefault<Item, IDispenseBehavior> oldRegistry = BlockDispenser.REGISTRY;
-		RegistryDefault<Item, IDispenseBehavior> newRegisrty = new RegistryDefault<Item, IDispenseBehavior>(new DispenseBehaviorItem());
-		for (Item oldItem : oldRegistry.keySet()) {
-			Item newItem = Item.getById(Item.getId(oldItem));
-			newRegisrty.a(newItem, oldRegistry.get(oldItem));
+	private static final void fixDispenserRegistry() {
+		RegistryDefault<Item, IDispenseBehavior> registry = BlockDispenser.REGISTRY;
+		for (Item item : new ArrayList<Item>(registry.keySet())) {
+			Item newItem = Item.getById(Item.getId(item));
+			if (item != newItem) {
+				registry.a(newItem, registry.get(item));
+			}
 		}
-		Utils.setFinalField(BlockDispenser.class.getDeclaredField("REGISTRY"), null, newRegisrty);
 	}
 
 }
