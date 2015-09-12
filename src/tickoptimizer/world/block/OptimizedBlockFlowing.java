@@ -88,15 +88,11 @@ public class OptimizedBlockFlowing extends BlockFlowing {
 				}
 			}
 
-			if ((material == Material.LAVA) && (currentlevel < 8) && (newlevel < 8) && (newlevel > currentlevel) && (random.nextInt(4) != 0)) {
-				j *= 4;
-			}
-
 			if (newlevel == currentlevel) {
 				this.setLiquid(world, blockposition, iblockdata);
 			} else {
 				currentlevel = newlevel;
-				if (newlevel < 0) {
+				if (newlevel < 0 || canFastDrain(world, blockposition)) {
 					world.setAir(blockposition);
 				} else {
 					iblockdata = iblockdata.set(LEVEL, Integer.valueOf(newlevel));
@@ -111,6 +107,10 @@ public class OptimizedBlockFlowing extends BlockFlowing {
 			}
 		} else {
 			this.setLiquid(world, blockposition, iblockdata);
+		}
+
+		if (world.getType(blockposition).getBlock().getMaterial() != material) {
+			return;
 		}
 
 		IBlockData iblockdata21 = world.getType(blockposition.down());
@@ -255,6 +255,44 @@ public class OptimizedBlockFlowing extends BlockFlowing {
 	private boolean h(World world, BlockPosition blockposition, IBlockData iblockdata) {
 		Material material = iblockdata.getBlock().getMaterial();
 		return (material != this.material) && (material != Material.LAVA) && !this.g(world, blockposition, iblockdata);
+	}
+
+	public boolean canFastDrain(World world, BlockPosition position) {
+		boolean result = false;
+		int data = getData(world, position);
+		if (this.material == Material.WATER) {
+			result = true;
+			if (getData(world, position.down()) < 0) {
+				result = false;
+			} else if (world.getType(position.north()).getBlock().getMaterial() == Material.WATER && getData(world, position.north()) < data) {
+				result = false;
+			} else if (world.getType(position.south()).getBlock().getMaterial() == Material.WATER && getData(world, position.south()) < data) {
+				result = false;
+			} else if (world.getType(position.west()).getBlock().getMaterial() == Material.WATER && getData(world, position.west()) < data) {
+				result = false;
+			} else if (world.getType(position.east()).getBlock().getMaterial() == Material.WATER && getData(world, position.east()) < data) {
+				result = false;
+			}
+		} else if (this.material == Material.LAVA) {
+			result = true;
+			if (getData(world, position.down()) < 0 || world.getType(position.up()).getBlock().getMaterial() != Material.AIR) {
+				result = false;
+			} else if (world.getType(position.north()).getBlock().getMaterial() == Material.LAVA && getData(world, position.north()) < data) {
+				result = false;
+			} else if (world.getType(position.south()).getBlock().getMaterial() == Material.LAVA && getData(world, position.south()) < data) {
+				result = false;
+			} else if (world.getType(position.west()).getBlock().getMaterial() == Material.LAVA && getData(world, position.west()) < data) {
+				result = false;
+			} else if (world.getType(position.east()).getBlock().getMaterial() == Material.LAVA && getData(world, position.east()) < data) {
+				result = false;
+			}
+		}
+		return result;
+	}
+
+	public int getData(World world, BlockPosition position) {
+		int data = this.e(world, position);
+		return data < 8 ? data : 0;
 	}
 
 }
