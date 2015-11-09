@@ -1,8 +1,6 @@
 package tickoptimizer.world;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.util.ArrayList;
 
 import net.minecraft.server.v1_8_R3.Entity;
@@ -16,51 +14,10 @@ import tickoptimizer.utils.Utils;
 
 public class WorldInjector {
 
-	private final static MethodHandle unusedTileEntityListFieldSetter = getUnusedTIleEntityListFieldSetter().asType(MethodType.methodType(void.class, World.class, VoidList.class));
-	private final static MethodHandle pendingTileEntityListFieldSetter = getPendingTileEntityFieldSetter().asType(MethodType.methodType(void.class, World.class, TileEntityCanUpdateSkipArrayList.class));
-	private final static MethodHandle tileEntityListFieldSetter = getTileEntityListFieldSetter().asType(MethodType.methodType(void.class, World.class, TileEntityCanUpdateSkipArrayList.class));
-	private final static MethodHandle entityListFieldSetter = getEntityListFieldSetter().asType(MethodType.methodType(void.class, World.class, ArrayList.class));
-
-	private static MethodHandle getUnusedTIleEntityListFieldSetter() {
-		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("h")));
-		} catch (Throwable t) {
-			t.printStackTrace();
-			Bukkit.shutdown();
-		}
-		return null;
-	}
-
-	private static MethodHandle getEntityListFieldSetter() {
-		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("entityList")));
-		} catch (Throwable t) {
-			t.printStackTrace();
-			Bukkit.shutdown();
-		}
-		return null;
-	}
-
-	private static MethodHandle getPendingTileEntityFieldSetter() {
-		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("b")));
-		} catch (Throwable t) {
-			t.printStackTrace();
-			Bukkit.shutdown();
-		}
-		return null;
-	}
-
-	private static MethodHandle getTileEntityListFieldSetter() {
-		try {
-			return MethodHandles.lookup().unreflectSetter(Utils.setAccessible(net.minecraft.server.v1_8_R3.World.class.getDeclaredField("tileEntityList")));
-		} catch (Throwable t) {
-			t.printStackTrace();
-			Bukkit.shutdown();
-		}
-		return null;
-	}
-
+	private final static MethodHandle unusedTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "h", VoidList.class);
+	private final static MethodHandle pendingTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "b", TileEntityCanUpdateSkipArrayList.class);
+	private final static MethodHandle tileEntityListFieldSetter = Utils.getFieldSetter(World.class, "tileEntityList", TileEntityCanUpdateSkipArrayList.class);
+	private final static MethodHandle entityListFieldSetter = Utils.getFieldSetter(World.class, "entityList", ArrayList.class);
 
 	public static void inject(org.bukkit.World world) {
 		try {
