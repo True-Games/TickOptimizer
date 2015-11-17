@@ -4,7 +4,6 @@ import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 
 import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.TileEntity;
 import net.minecraft.server.v1_8_R3.World;
 
 import org.bukkit.Bukkit;
@@ -14,7 +13,7 @@ import tickoptimizer.utils.Utils;
 
 public class WorldInjector {
 
-	private final static MethodHandle unusedTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "h", VoidList.class);
+	private final static MethodHandle unknownTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "h", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle pendingTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "b", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle tileEntityListFieldSetter = Utils.getFieldSetter(World.class, "tileEntityList", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle entityListFieldSetter = Utils.getFieldSetter(World.class, "entityList", ArrayList.class);
@@ -23,7 +22,7 @@ public class WorldInjector {
 		try {
 			World nmsWorld = ((CraftWorld) world).getHandle();
 			entityListFieldSetter.invokeExact(nmsWorld, new ArrayList<Entity>());
-			unusedTileEntityListFieldSetter.invokeExact(nmsWorld, new VoidList<TileEntity>());
+			unknownTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			pendingTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			tileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 		} catch (Throwable t) {
