@@ -41,7 +41,7 @@ public class VoidList<T> implements List<T> {
 
 		@Override
 		public int previousIndex() {
-			return 1;
+			return -1;
 		}
 
 		@Override
