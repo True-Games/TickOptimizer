@@ -13,7 +13,7 @@ import tickoptimizer.utils.Utils;
 
 public class WorldInjector {
 
-	private final static MethodHandle unknownTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "h", TileEntityCanUpdateSkipArrayList.class);
+	private final static MethodHandle toRemoveTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "h", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle pendingTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "b", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle tileEntityListFieldSetter = Utils.getFieldSetter(World.class, "tileEntityList", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle entityListFieldSetter = Utils.getFieldSetter(World.class, "entityList", ArrayList.class);
@@ -22,7 +22,7 @@ public class WorldInjector {
 		try {
 			World nmsWorld = ((CraftWorld) world).getHandle();
 			entityListFieldSetter.invokeExact(nmsWorld, new ArrayList<Entity>());
-			unknownTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
+			toRemoveTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			pendingTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			tileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 		} catch (Throwable t) {
