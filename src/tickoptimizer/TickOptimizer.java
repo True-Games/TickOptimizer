@@ -5,8 +5,7 @@ import net.minecraft.server.v1_8_R3.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import tickoptimizer.keepalive.MoreKeepAliveThread;
-import tickoptimizer.listeners.WorldListener;
+import tickoptimizer.network.MoreKeepAliveThread;
 
 public class TickOptimizer extends JavaPlugin {
 
@@ -24,7 +23,7 @@ public class TickOptimizer extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		getServer().getPluginManager().registerEvents(new WorldListener(), this);
+		getServer().getPluginManager().registerEvents(new InjectorListener(), this);
 	}
 
 	@Override

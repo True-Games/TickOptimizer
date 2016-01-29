@@ -1,4 +1,4 @@
-package tickoptimizer.keepalive;
+package tickoptimizer.network;
 
 import java.util.concurrent.TimeUnit;
 
