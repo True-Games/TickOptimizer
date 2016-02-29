@@ -9,7 +9,6 @@ import java.util.Map;
 import net.minecraft.server.v1_8_R3.Block;
 import net.minecraft.server.v1_8_R3.Blocks;
 import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.EntityMinecartAbstract.EnumMinecartType;
 import net.minecraft.server.v1_8_R3.BlockDispenser;
 import net.minecraft.server.v1_8_R3.EntityTypes;
 import net.minecraft.server.v1_8_R3.IBlockData;
@@ -34,10 +33,8 @@ import tickoptimizer.world.block.InjectTEBlockNormalChest;
 import tickoptimizer.world.block.InjectTEBlockTrappedChest;
 import tickoptimizer.world.block.OptimizedBlockFlowing;
 import tickoptimizer.world.entity.OptimizedEntityItemFrame;
-import tickoptimizer.world.entity.OptimizedEntityMinecartHopper;
 import tickoptimizer.world.item.FixedBlockRefItemBucket;
 import tickoptimizer.world.item.InjectEntityItemFrame;
-import tickoptimizer.world.item.InjectEntityItemMinecartHopper;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
@@ -65,9 +62,6 @@ public class ServerInjector {
 
 		registerEntity(18, "ItemFrame", OptimizedEntityItemFrame.class);
 		registerItem(389, "item_frame", new InjectEntityItemFrame());
-
-		registerEntity(46, EnumMinecartType.HOPPER.b(), OptimizedEntityMinecartHopper.class);
-		registerItem(408, "hopper_minecart", new InjectEntityItemMinecartHopper());
 
 		OptimizedBlockFlowing water_flowing = new OptimizedBlockFlowing(Material.WATER, true);
 		registerBlock(8, "flowing_water", water_flowing);
