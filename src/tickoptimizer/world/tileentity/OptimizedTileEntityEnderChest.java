@@ -1,7 +1,9 @@
 package tickoptimizer.world.tileentity;
 
-import net.minecraft.server.v1_8_R3.Blocks;
-import net.minecraft.server.v1_8_R3.TileEntityEnderChest;
+import net.minecraft.server.v1_9_R1.Blocks;
+import net.minecraft.server.v1_9_R1.SoundCategory;
+import net.minecraft.server.v1_9_R1.SoundEffects;
+import net.minecraft.server.v1_9_R1.TileEntityEnderChest;
 
 public class OptimizedTileEntityEnderChest extends TileEntityEnderChest {
 
@@ -21,7 +23,7 @@ public class OptimizedTileEntityEnderChest extends TileEntityEnderChest {
 			return;
 		}
 		if (this.g == 1) {
-			this.world.makeSound(this.position.getX() + 0.5, this.position.getY() + 0.5, this.position.getZ() + 0.5, "random.chestopen", 0.5f, this.world.random.nextFloat() * 0.1f + 0.9f);
+			this.world.a(null, this.position.getX() + 0.5, this.position.getY() + 0.5, this.position.getZ() + 0.5, SoundEffects.X, SoundCategory.BLOCKS, 0.5f, this.world.random.nextFloat() * 0.1f + 0.9f);
 		}
 	}
 
@@ -32,7 +34,7 @@ public class OptimizedTileEntityEnderChest extends TileEntityEnderChest {
 			return;
 		}
 		if (this.g == 0) {
-			this.world.makeSound(this.position.getX() + 0.5, this.position.getY() + 0.5, this.position.getZ() + 0.5, "random.chestclosed", 0.5f, this.world.random.nextFloat() * 0.1f + 0.9f);
+			this.world.a(null, this.position.getX() + 0.5, this.position.getY() + 0.5, this.position.getZ() + 0.5, SoundEffects.V, SoundCategory.BLOCKS, 0.5f, this.world.random.nextFloat() * 0.1f + 0.9f);
 		}
 	}
 

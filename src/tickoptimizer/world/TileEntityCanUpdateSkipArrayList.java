@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import net.minecraft.server.v1_8_R3.TileEntity;
+import net.minecraft.server.v1_9_R1.TileEntity;
 
 @SuppressWarnings("serial")
 public class TileEntityCanUpdateSkipArrayList extends ArrayList<TileEntity> {

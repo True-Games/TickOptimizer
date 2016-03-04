@@ -6,22 +6,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.minecraft.server.v1_8_R3.Block;
-import net.minecraft.server.v1_8_R3.Blocks;
-import net.minecraft.server.v1_8_R3.Entity;
-import net.minecraft.server.v1_8_R3.BlockDispenser;
-import net.minecraft.server.v1_8_R3.EntityTypes;
-import net.minecraft.server.v1_8_R3.IBlockData;
-import net.minecraft.server.v1_8_R3.IDispenseBehavior;
-import net.minecraft.server.v1_8_R3.Item;
-import net.minecraft.server.v1_8_R3.ItemBlock;
-import net.minecraft.server.v1_8_R3.Items;
-import net.minecraft.server.v1_8_R3.Material;
-import net.minecraft.server.v1_8_R3.MinecraftKey;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
-import net.minecraft.server.v1_8_R3.RegistryDefault;
-import net.minecraft.server.v1_8_R3.TileEntity;
-import net.minecraft.server.v1_8_R3.UserCache;
+import net.minecraft.server.v1_9_R1.Block;
+import net.minecraft.server.v1_9_R1.Blocks;
+import net.minecraft.server.v1_9_R1.Entity;
+import net.minecraft.server.v1_9_R1.BlockDispenser;
+import net.minecraft.server.v1_9_R1.EntityTypes;
+import net.minecraft.server.v1_9_R1.IBlockData;
+import net.minecraft.server.v1_9_R1.IDispenseBehavior;
+import net.minecraft.server.v1_9_R1.Item;
+import net.minecraft.server.v1_9_R1.ItemBlock;
+import net.minecraft.server.v1_9_R1.ItemBucket;
+import net.minecraft.server.v1_9_R1.Items;
+import net.minecraft.server.v1_9_R1.Material;
+import net.minecraft.server.v1_9_R1.MinecraftKey;
+import net.minecraft.server.v1_9_R1.MinecraftServer;
+import net.minecraft.server.v1_9_R1.RegistryDefault;
+import net.minecraft.server.v1_9_R1.TileEntity;
+import net.minecraft.server.v1_9_R1.UserCache;
 
 import org.bukkit.Bukkit;
 
@@ -32,24 +33,21 @@ import tickoptimizer.world.block.InjectTEBlockEnderChest;
 import tickoptimizer.world.block.InjectTEBlockNormalChest;
 import tickoptimizer.world.block.InjectTEBlockTrappedChest;
 import tickoptimizer.world.block.OptimizedBlockFlowing;
-import tickoptimizer.world.entity.OptimizedEntityItemFrame;
-import tickoptimizer.world.item.FixedBlockRefItemBucket;
-import tickoptimizer.world.item.InjectEntityItemFrame;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
 
 public class ServerInjector {
 
+	@SuppressWarnings("deprecation")
 	public static void injectUserCache() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		UserCache oldUserCache = MinecraftServer.getServer().getUserCache();
-		File oldUserCacheFile = (File) Utils.setAccessible(oldUserCache.getClass().getDeclaredField("g")).get(oldUserCache);
-		OptimizedUserCache newUserCache = new OptimizedUserCache(MinecraftServer.getServer(), oldUserCacheFile);
-		Utils.setFinalField(MinecraftServer.class.getDeclaredField("Z"), MinecraftServer.getServer(), newUserCache);
+		File oldUserCacheFile = (File) Utils.setAccessible(oldUserCache.getClass().getDeclaredField("h")).get(oldUserCache);
+		OptimizedUserCache newUserCache = new OptimizedUserCache(MinecraftServer.getServer().getGameProfileRepository(), oldUserCacheFile);
+		Utils.setFinalField(MinecraftServer.class.getDeclaredField("X"), MinecraftServer.getServer(), newUserCache);
 	}
 
 	public static void injectRegistry() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-
 		registerTileEntity("Beacon", OptimizedTileEntityBeacon.class);
 		registerBlock(138, "beacon", new InjectTEBlockBeacon());
 
@@ -60,21 +58,23 @@ public class ServerInjector {
 		registerTileEntity("EnderChest", OptimizedTileEntityEnderChest.class);
 		registerBlock(130, "ender_chest", new InjectTEBlockEnderChest());
 
-		registerEntity(18, "ItemFrame", OptimizedEntityItemFrame.class);
-		registerItem(389, "item_frame", new InjectEntityItemFrame());
+		OptimizedBlockFlowing blockFlowingWater = new OptimizedBlockFlowing(Material.WATER, true);
+		registerBlock(8, "flowing_water", blockFlowingWater);
+		OptimizedBlockFlowing blockFlowingLava = new OptimizedBlockFlowing(Material.LAVA, false);
+		registerBlock(10, "flowing_lava", blockFlowingLava);
 
-		OptimizedBlockFlowing water_flowing = new OptimizedBlockFlowing(Material.WATER, true);
-		registerBlock(8, "flowing_water", water_flowing);
-		OptimizedBlockFlowing lava_flowing = new OptimizedBlockFlowing(Material.LAVA, false);
-		registerBlock(10, "flowing_lava", lava_flowing);
-		registerItem(326, "water_bucket", new FixedBlockRefItemBucket(water_flowing, true));
-		registerItem(327, "lava_bucket", new FixedBlockRefItemBucket(lava_flowing, false));
+		fixItemBucketRef("water_bucket", blockFlowingWater);
+		fixItemBucketRef("lava_bucket", blockFlowingLava);
 
 		fixBlocksRefs();
 		fixItemsRefs();
 		fixDispenserRegistry();
 
-		Bukkit.resetRecipes(); //TODO: replace with actual recipe items fixing
+		Bukkit.resetRecipes();
+	}
+
+	private static void fixItemBucketRef(String itemname, Block newBlockRef) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+		Utils.setAccessible(ItemBucket.class.getDeclaredField("a")).set(Item.d(itemname), newBlockRef);
 	}
 
 
@@ -84,21 +84,16 @@ public class ServerInjector {
 		((Map<Class<? extends TileEntity>, String>) Utils.setAccessible(TileEntity.class.getDeclaredField("g")).get(null)).put(entityClass, name);
 	}
 
-	private static void registerItem(int id, String name, Item item) {
-		MinecraftKey stringkey = new MinecraftKey(name);
-		Item.REGISTRY.a(id, stringkey, item);
-	}
-
 	@SuppressWarnings("unchecked")
 	private static void registerBlock(int id, String name, Block block) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
 		MinecraftKey stringkey = new MinecraftKey(name);
 		ItemBlock itemblock = new ItemBlock(block);
 		Block.REGISTRY.a(id, stringkey, block);
-		Iterator<IBlockData> blockdataiterator = block.P().a().iterator();
+		Iterator<IBlockData> blockdataiterator = block.t().a().iterator();
 		while (blockdataiterator.hasNext()) {
 			IBlockData blockdata = blockdataiterator.next();
 			final int stateId = (id << 4) | block.toLegacyData(blockdata);
-			Block.d.a(blockdata, stateId);
+			Block.REGISTRY_ID.a(blockdata, stateId);
 		}
 		Item.REGISTRY.a(id, stringkey, itemblock);
 		((Map<Block, Item>)Utils.setAccessible(Item.class.getDeclaredField("a")).get(null)).put(block, itemblock);

@@ -3,27 +3,27 @@ package tickoptimizer.world;
 import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
 import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
-import net.minecraft.server.v1_8_R3.BlockJukeBox.TileEntityRecordPlayer;
-import net.minecraft.server.v1_8_R3.TileEntity;
-import net.minecraft.server.v1_8_R3.TileEntityBanner;
-import net.minecraft.server.v1_8_R3.TileEntityBrewingStand;
-import net.minecraft.server.v1_8_R3.TileEntityChest;
-import net.minecraft.server.v1_8_R3.TileEntityCommand;
-import net.minecraft.server.v1_8_R3.TileEntityComparator;
-import net.minecraft.server.v1_8_R3.TileEntityDispenser;
-import net.minecraft.server.v1_8_R3.TileEntityDropper;
-import net.minecraft.server.v1_8_R3.TileEntityEnchantTable;
-import net.minecraft.server.v1_8_R3.TileEntityEnderChest;
-import net.minecraft.server.v1_8_R3.TileEntityEnderPortal;
-import net.minecraft.server.v1_8_R3.TileEntityFlowerPot;
-import net.minecraft.server.v1_8_R3.TileEntityFurnace;
-import net.minecraft.server.v1_8_R3.TileEntityHopper;
-import net.minecraft.server.v1_8_R3.TileEntityLightDetector;
-import net.minecraft.server.v1_8_R3.TileEntityMobSpawner;
-import net.minecraft.server.v1_8_R3.TileEntityNote;
-import net.minecraft.server.v1_8_R3.TileEntityPiston;
-import net.minecraft.server.v1_8_R3.TileEntitySign;
-import net.minecraft.server.v1_8_R3.TileEntitySkull;
+import net.minecraft.server.v1_9_R1.BlockJukeBox.TileEntityRecordPlayer;
+import net.minecraft.server.v1_9_R1.TileEntity;
+import net.minecraft.server.v1_9_R1.TileEntityBanner;
+import net.minecraft.server.v1_9_R1.TileEntityBrewingStand;
+import net.minecraft.server.v1_9_R1.TileEntityChest;
+import net.minecraft.server.v1_9_R1.TileEntityCommand;
+import net.minecraft.server.v1_9_R1.TileEntityComparator;
+import net.minecraft.server.v1_9_R1.TileEntityDispenser;
+import net.minecraft.server.v1_9_R1.TileEntityDropper;
+import net.minecraft.server.v1_9_R1.TileEntityEnchantTable;
+import net.minecraft.server.v1_9_R1.TileEntityEnderChest;
+import net.minecraft.server.v1_9_R1.TileEntityEnderPortal;
+import net.minecraft.server.v1_9_R1.TileEntityFlowerPot;
+import net.minecraft.server.v1_9_R1.TileEntityFurnace;
+import net.minecraft.server.v1_9_R1.TileEntityHopper;
+import net.minecraft.server.v1_9_R1.TileEntityLightDetector;
+import net.minecraft.server.v1_9_R1.TileEntityMobSpawner;
+import net.minecraft.server.v1_9_R1.TileEntityNote;
+import net.minecraft.server.v1_9_R1.TileEntityPiston;
+import net.minecraft.server.v1_9_R1.TileEntitySign;
+import net.minecraft.server.v1_9_R1.TileEntitySkull;
 import gnu.trove.map.hash.TObjectByteHashMap;
 
 public class TileEntityCanUpdateCheck {
@@ -76,8 +76,7 @@ public class TileEntityCanUpdateCheck {
 			tileentity instanceof TileEntityFlowerPot ||
 			tileentity instanceof TileEntityNote ||
 			tileentity instanceof TileEntityRecordPlayer ||
-			tileentity instanceof TileEntitySign ||
-			tileentity instanceof TileEntitySkull
+			tileentity instanceof TileEntitySign
 		) {
 			canUpdate.put(tileentity.getClass(), (byte) 0);
 			return false;

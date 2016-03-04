@@ -2,22 +2,23 @@ package tickoptimizer.world.tileentity;
 
 import java.util.List;
 
-import net.minecraft.server.v1_8_R3.AchievementList;
-import net.minecraft.server.v1_8_R3.AxisAlignedBB;
-import net.minecraft.server.v1_8_R3.Block;
-import net.minecraft.server.v1_8_R3.BlockPosition;
-import net.minecraft.server.v1_8_R3.Blocks;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.MobEffect;
-import net.minecraft.server.v1_8_R3.MobEffectList;
-import net.minecraft.server.v1_8_R3.NBTTagCompound;
-import net.minecraft.server.v1_8_R3.TileEntityBeacon;
+import net.minecraft.server.v1_9_R1.AchievementList;
+import net.minecraft.server.v1_9_R1.AxisAlignedBB;
+import net.minecraft.server.v1_9_R1.Block;
+import net.minecraft.server.v1_9_R1.BlockPosition;
+import net.minecraft.server.v1_9_R1.Blocks;
+import net.minecraft.server.v1_9_R1.EntityHuman;
+import net.minecraft.server.v1_9_R1.MobEffect;
+import net.minecraft.server.v1_9_R1.MobEffectList;
+import net.minecraft.server.v1_9_R1.MobEffects;
+import net.minecraft.server.v1_9_R1.NBTTagCompound;
+import net.minecraft.server.v1_9_R1.TileEntityBeacon;
 
 public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 
 	private int levels = 0;
-	private int primary = 0;
-	private int secondary = 0;
+	private MobEffectList primary;
+	private MobEffectList secondary;
 
 	@Override
 	public void m() {
@@ -26,23 +27,24 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 	}
 
 	private void addEffects() {
-		if (this.levels > 0 && this.primary > 0) {
+		if (this.levels > 0 && this.primary != null) {
 			final double aoe = this.levels * 10 + 10;
 			byte amplifier = 0;
 			if (this.levels >= 4 && this.primary == this.secondary) {
 				amplifier = 1;
 			}
-			final int i = this.position.getX();
-			final int j = this.position.getY();
-			final int k = this.position.getZ();
-			final AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, (i + 1), (j + 1), (k + 1)).grow(aoe, aoe, aoe).a(0.0, this.world.getHeight(), 0.0);
+			final int duration = (9 + this.levels * 2) * 20;
+			final int x = this.position.getX();
+			final int y = this.position.getY();
+			final int z = this.position.getZ();
+			final AxisAlignedBB axisalignedbb = new AxisAlignedBB(x, y, z, (x + 1), (y + 1), (z + 1)).grow(aoe, aoe, aoe).a(0.0, this.world.getHeight(), 0.0);
 			final List<EntityHuman> list = this.world.a(EntityHuman.class, axisalignedbb);
 			for (final EntityHuman entityhuman : list) {
-				entityhuman.addEffect(new MobEffect(this.primary, 180, amplifier, true, true));
+				entityhuman.addEffect(new MobEffect(this.primary, duration, amplifier, true, true));
 			}
-			if (this.levels >= 4 && this.primary != this.secondary && this.secondary > 0) {
+			if (this.levels >= 4 && this.primary != this.secondary && this.secondary != null) {
 				for (final EntityHuman entityhuman : list) {
-					entityhuman.addEffect(new MobEffect(this.secondary, 180, 0, true, true));
+					entityhuman.addEffect(new MobEffect(this.secondary, duration, 0, true, true));
 				}
 			}
 		}
@@ -95,10 +97,10 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 				return this.levels;
 			}
 			case 1: {
-				return this.primary;
+				return MobEffectList.getId(this.primary);
 			}
 			case 2: {
-				return this.secondary;
+				return MobEffectList.getId(this.secondary);
 			}
 			default: {
 				return 0;
@@ -107,18 +109,18 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 	}
 
 	@Override
-	public void b(final int key, final int value) {
+	public void setProperty(final int key, final int value) {
 		switch (key) {
 			case 0: {
 				this.levels = value;
 				break;
 			}
 			case 1: {
-				this.primary = this.validateEffect(value);
+				this.primary = this.getByIdAndValidate(value);
 				break;
 			}
 			case 2: {
-				this.secondary = this.validateEffect(value);
+				this.secondary = this.getByIdAndValidate(value);
 				break;
 			}
 		}
@@ -127,32 +129,32 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 	@Override
 	public void a(final NBTTagCompound nbttagcompound) {
 		super.a(nbttagcompound);
-		this.primary = this.validateEffect(nbttagcompound.getInt("Primary"));
-		this.secondary = this.validateEffect(nbttagcompound.getInt("Secondary"));
+		this.primary = this.getByIdAndValidate(nbttagcompound.getInt("Primary"));
+		this.secondary = this.getByIdAndValidate(nbttagcompound.getInt("Secondary"));
 		this.levels = nbttagcompound.getInt("Levels");
 	}
 
 	@Override
-	public void b(final NBTTagCompound nbttagcompound) {
-		super.b(nbttagcompound);
-		nbttagcompound.setInt("Primary", this.primary);
-		nbttagcompound.setInt("Secondary", this.secondary);
+	public void save(final NBTTagCompound nbttagcompound) {
+		super.save(nbttagcompound);
+		nbttagcompound.setInt("Primary", MobEffectList.getId(this.primary));
+		nbttagcompound.setInt("Secondary", MobEffectList.getId(this.secondary));
 		nbttagcompound.setInt("Levels", this.levels);
 	}
 
-	private int validateEffect(int input) {
-		if (input >= 0 && input < MobEffectList.byId.length && MobEffectList.byId[input] != null) {
-			final MobEffectList mobeffectlist = MobEffectList.byId[input];
-			return (
-				mobeffectlist != MobEffectList.FASTER_MOVEMENT &&
-				mobeffectlist != MobEffectList.FASTER_DIG &&
-				mobeffectlist != MobEffectList.RESISTANCE &&
-				mobeffectlist != MobEffectList.JUMP &&
-				mobeffectlist != MobEffectList.INCREASE_DAMAGE &&
-				mobeffectlist != MobEffectList.REGENERATION
-			) ? 0 : input;
+	private MobEffectList getByIdAndValidate(int input) {
+		MobEffectList effect = MobEffectList.fromId(input);
+		if (
+			effect == MobEffects.FASTER_MOVEMENT ||
+			effect == MobEffects.FASTER_DIG ||
+			effect == MobEffects.RESISTANCE ||
+			effect == MobEffects.JUMP ||
+			effect == MobEffects.INCREASE_DAMAGE ||
+			effect == MobEffects.REGENERATION
+		) {
+			return effect;
 		}
-		return 0;
+		return null;
 	}
 
 }

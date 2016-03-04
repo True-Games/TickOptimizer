@@ -2,10 +2,10 @@ package tickoptimizer.network;
 
 import java.util.concurrent.TimeUnit;
 
-import net.minecraft.server.v1_8_R3.PacketPlayOutKeepAlive;
+import net.minecraft.server.v1_9_R1.PacketPlayOutKeepAlive;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class MoreKeepAliveThread extends Thread {

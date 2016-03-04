@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
-import net.minecraft.server.v1_8_R3.UserCache;
+import net.minecraft.server.v1_9_R1.EntityHuman;
+import net.minecraft.server.v1_9_R1.MinecraftServer;
+import net.minecraft.server.v1_9_R1.UserCache;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.GameProfileRepository;
 
 import org.spigotmc.SpigotConfig;
 
@@ -33,8 +34,8 @@ public class OptimizedUserCache extends UserCache {
 	private final DualCache<UUID, String, GameProfile> cache;
 	private final File userCacheFile;
 
-	public OptimizedUserCache(MinecraftServer minecraftserver, File file) {
-		super(minecraftserver, file);
+	public OptimizedUserCache(GameProfileRepository repo, File file) {
+		super(repo, file);
 		this.userCacheFile = file;
 		this.cache = new DualCache<UUID, String, GameProfile>(SpigotConfig.userCacheCap, 1000L * 60L * 60L * 24L * 30L);
 		b();
@@ -45,6 +46,7 @@ public class OptimizedUserCache extends UserCache {
 		cache.put(gameProfile.getId(), gameProfile.getName().toLowerCase(Locale.ROOT), gameProfile);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public GameProfile getProfile(String name) {
 		String playername = name.toLowerCase(Locale.ROOT);
