@@ -5,8 +5,6 @@ import net.minecraft.server.v1_9_R1.MinecraftServer;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import tickoptimizer.network.MoreKeepAliveThread;
-
 public class TickOptimizer extends JavaPlugin {
 
 	@Override
@@ -14,7 +12,6 @@ public class TickOptimizer extends JavaPlugin {
 		try {
 			ServerInjector.injectUserCache();
 			ServerInjector.injectRegistry();
-			new MoreKeepAliveThread().start();
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
