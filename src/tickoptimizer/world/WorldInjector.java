@@ -22,6 +22,7 @@ public class WorldInjector {
 	private final static MethodHandle pendingTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "b", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle entityListFieldSetter = Utils.getFieldSetter(World.class, "entityList", ArrayList.class);
 	private final static MethodHandle managedPlayersPlayersFieldSetter = Utils.getFieldSetter(PlayerChunkMap.class, "managedPlayers", HashSetFakeListImpl.class);
+	private final static MethodHandle navigationListener = Utils.getFieldSetter(World.class, "t", OptimizedNavigationListener.class);
 
 	public static void inject(org.bukkit.World world) {
 		try {
@@ -31,6 +32,7 @@ public class WorldInjector {
 			loadedTileEntityListFieldSetter.invokeExact(nmsWorld, new VoidList<TileEntity>());
 			pendingTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			tileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
+			navigationListener.invokeExact(nmsWorld, new OptimizedNavigationListener());
 			PlayerChunkMap chunkmap = nmsWorldServer.getPlayerChunkMap();
 			managedPlayersPlayersFieldSetter.invokeExact(chunkmap, new HashSetFakeListImpl<EntityPlayer>());
 		} catch (Throwable t) {
