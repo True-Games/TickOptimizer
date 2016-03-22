@@ -3,8 +3,10 @@ package tickoptimizer.world;
 import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 
+import net.minecraft.server.v1_9_R1.ChunkProviderServer;
 import net.minecraft.server.v1_9_R1.Entity;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
+import net.minecraft.server.v1_9_R1.MinecraftServer;
 import net.minecraft.server.v1_9_R1.PlayerChunkMap;
 import net.minecraft.server.v1_9_R1.TileEntity;
 import net.minecraft.server.v1_9_R1.World;
@@ -23,7 +25,9 @@ public class WorldInjector {
 	private final static MethodHandle entityListFieldSetter = Utils.getFieldSetter(World.class, "entityList", ArrayList.class);
 	private final static MethodHandle managedPlayersPlayersFieldSetter = Utils.getFieldSetter(PlayerChunkMap.class, "managedPlayers", HashSetFakeListImpl.class);
 	private final static MethodHandle navigationListener = Utils.getFieldSetter(World.class, "t", OptimizedNavigationListener.class);
+	private final static MethodHandle chunkLoaderFieldSetter = Utils.getFieldSetter(ChunkProviderServer.class, "chunkLoader", OptimizedChunkRegionLoader.class);
 
+	@SuppressWarnings("deprecation")
 	public static void inject(org.bukkit.World world) {
 		try {
 			WorldServer nmsWorldServer = ((CraftWorld) world).getHandle();
@@ -35,6 +39,8 @@ public class WorldInjector {
 			navigationListener.invokeExact(nmsWorld, new OptimizedNavigationListener());
 			PlayerChunkMap chunkmap = nmsWorldServer.getPlayerChunkMap();
 			managedPlayersPlayersFieldSetter.invokeExact(chunkmap, new HashSetFakeListImpl<EntityPlayer>());
+			ChunkProviderServer cps = nmsWorldServer.getChunkProviderServer();
+			chunkLoaderFieldSetter.invokeExact(cps, new OptimizedChunkRegionLoader(nmsWorldServer.getWorld().getWorldFolder(), MinecraftServer.getServer().getDataConverterManager()));
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
