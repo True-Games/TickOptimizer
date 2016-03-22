@@ -28,7 +28,7 @@ import gnu.trove.map.hash.TObjectByteHashMap;
 
 public class TileEntityCanUpdateCheck {
 
-	private static TObjectByteHashMap<Class<? extends TileEntity>> canUpdate = new TObjectByteHashMap<Class<? extends TileEntity>>();
+	private static TObjectByteHashMap<Class<? extends TileEntity>> canUpdate = new TObjectByteHashMap<Class<? extends TileEntity>>(101, 0.5F, (byte) -1);
 
 	static {
 		canUpdate.put(TileEntityBanner.class, (byte) 0);
@@ -58,10 +58,8 @@ public class TileEntityCanUpdateCheck {
 
 	public static boolean canUpdate(TileEntity tileentity) {
 		Class<?> clazz = tileentity.getClass();
-		if (canUpdate.contains(clazz)) {
-			return canUpdate.get(clazz) == 0 ? false : true;
-		}
-		return checkAndRememberCanUpdate(tileentity);
+		byte result = canUpdate.get(clazz);
+		return result == -1 ? checkAndRememberCanUpdate(tileentity) : result == 0 ? false : true;
 	}
 
 	private static boolean checkAndRememberCanUpdate(TileEntity tileentity) {
