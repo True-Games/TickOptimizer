@@ -57,8 +57,7 @@ public class TileEntityCanUpdateCheck {
 	}
 
 	public static boolean canUpdate(TileEntity tileentity) {
-		Class<?> clazz = tileentity.getClass();
-		byte result = canUpdate.get(clazz);
+		byte result = canUpdate.get(tileentity.getClass());
 		return result == -1 ? checkAndRememberCanUpdate(tileentity) : result == 0 ? false : true;
 	}
 
