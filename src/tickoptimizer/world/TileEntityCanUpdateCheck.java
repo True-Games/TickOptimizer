@@ -76,7 +76,8 @@ public class TileEntityCanUpdateCheck {
 			tileentity instanceof TileEntityFlowerPot ||
 			tileentity instanceof TileEntityNote ||
 			tileentity instanceof TileEntityRecordPlayer ||
-			tileentity instanceof TileEntitySign
+			tileentity instanceof TileEntitySign ||
+			tileentity instanceof TileEntitySkull
 		) {
 			canUpdate.put(tileentity.getClass(), (byte) 0);
 			return false;
