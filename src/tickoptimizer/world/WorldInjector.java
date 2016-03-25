@@ -8,7 +8,6 @@ import net.minecraft.server.v1_9_R1.Entity;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.MinecraftServer;
 import net.minecraft.server.v1_9_R1.PlayerChunkMap;
-import net.minecraft.server.v1_9_R1.TileEntity;
 import net.minecraft.server.v1_9_R1.World;
 import net.minecraft.server.v1_9_R1.WorldServer;
 
@@ -19,7 +18,6 @@ import tickoptimizer.utils.Utils;
 
 public class WorldInjector {
 
-	private final static MethodHandle loadedTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "tileEntityList", VoidList.class);
 	private final static MethodHandle tileEntityListFieldSetter = Utils.getFieldSetter(World.class, "tileEntityListTick", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle pendingTileEntityListFieldSetter = Utils.getFieldSetter(World.class, "b", TileEntityCanUpdateSkipArrayList.class);
 	private final static MethodHandle entityListFieldSetter = Utils.getFieldSetter(World.class, "entityList", ArrayList.class);
@@ -33,7 +31,6 @@ public class WorldInjector {
 			WorldServer nmsWorldServer = ((CraftWorld) world).getHandle();
 			World nmsWorld = nmsWorldServer;
 			entityListFieldSetter.invokeExact(nmsWorld, new ArrayList<Entity>());
-			loadedTileEntityListFieldSetter.invokeExact(nmsWorld, new VoidList<TileEntity>());
 			pendingTileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			tileEntityListFieldSetter.invokeExact(nmsWorld, new TileEntityCanUpdateSkipArrayList());
 			navigationListener.invokeExact(nmsWorld, new OptimizedNavigationListener());
