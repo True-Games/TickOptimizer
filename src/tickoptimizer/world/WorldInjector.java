@@ -41,6 +41,7 @@ public class WorldInjector {
 			managedPlayersPlayersFieldSetter.invokeExact(chunkmap, new HashSetFakeListImpl<EntityPlayer>());
 			ChunkProviderServer cps = nmsWorldServer.getChunkProviderServer();
 			chunkLoaderFieldSetter.invokeExact(cps, new OptimizedChunkRegionLoader(nmsWorldServer.getWorld().getWorldFolder(), MinecraftServer.getServer().getDataConverterManager()));
+			cps.chunks = new CachedChunkMap();
 		} catch (Throwable t) {
 			t.printStackTrace();
 			Bukkit.shutdown();
