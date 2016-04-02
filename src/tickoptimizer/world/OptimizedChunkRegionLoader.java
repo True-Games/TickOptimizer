@@ -9,6 +9,7 @@ import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,6 +51,8 @@ public class OptimizedChunkRegionLoader extends ChunkRegionLoader {
 
 	private final AvgSizeCounter avgcounter = new AvgSizeCounter(20, 30);
 	private volatile HashMap<ChunkCoordIntPair, NBTTagCompound> saveQueue = createMap();
+	@SuppressWarnings("rawtypes")
+	private final AtomicReferenceFieldUpdater<OptimizedChunkRegionLoader, HashMap> saveQueueUpdater = AtomicReferenceFieldUpdater.newUpdater(OptimizedChunkRegionLoader.class, HashMap.class, "saveQueue");
 	private HashMap<ChunkCoordIntPair, NBTTagCompound> createMap() {
 		return new HashMap<ChunkCoordIntPair, NBTTagCompound>(avgcounter.getAvg() * 2, 0.75F);
 	}
@@ -138,18 +141,18 @@ public class OptimizedChunkRegionLoader extends ChunkRegionLoader {
 	protected void a(ChunkCoordIntPair chunkcoordintpair, NBTTagCompound nbttagcompound) {
 		if (nbttagcompound != null) {
 			this.saveQueue.put(chunkcoordintpair, nbttagcompound);
-			FileIOThread.a().a(this);
 		}
+		FileIOThread.a().a(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean c() {
 		if (this.saveQueue.isEmpty()) {
 			return false;
 		}
-		HashMap<ChunkCoordIntPair, NBTTagCompound> toSave = saveQueue;
+		HashMap<ChunkCoordIntPair, NBTTagCompound> toSave = saveQueueUpdater.getAndSet(this, createMap());
 		avgcounter.addSize(toSave.size());
-		saveQueue = createMap();
 		for (Entry<ChunkCoordIntPair, NBTTagCompound> entry : toSave.entrySet()) {
 			ChunkCoordIntPair chunkcoordintpair = entry.getKey();
 			NBTTagCompound nbttagcompound = entry.getValue();
@@ -178,6 +181,8 @@ public class OptimizedChunkRegionLoader extends ChunkRegionLoader {
 
 	@Override
 	public void b() {
+		while (c()) {
+		}
 	}
 
 	private static void writeChunkToNBT(Chunk chunk, World world, NBTTagCompound nbttagcompound) {
