@@ -1,5 +1,6 @@
 package tickoptimizer.world;
 
+import java.io.File;
 import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ import net.minecraft.server.v1_9_R1.Entity;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import net.minecraft.server.v1_9_R1.MinecraftServer;
 import net.minecraft.server.v1_9_R1.PlayerChunkMap;
+import net.minecraft.server.v1_9_R1.SecondaryWorldServer;
 import net.minecraft.server.v1_9_R1.TileEntity;
 import net.minecraft.server.v1_9_R1.World;
 import net.minecraft.server.v1_9_R1.WorldServer;
@@ -40,7 +42,11 @@ public class WorldInjector {
 			PlayerChunkMap chunkmap = nmsWorldServer.getPlayerChunkMap();
 			managedPlayersPlayersFieldSetter.invokeExact(chunkmap, new HashSetFakeListImpl<EntityPlayer>());
 			ChunkProviderServer cps = nmsWorldServer.getChunkProviderServer();
-			chunkLoaderFieldSetter.invokeExact(cps, new OptimizedChunkRegionLoader(nmsWorldServer.getWorld().getWorldFolder(), MinecraftServer.getServer().getDataConverterManager()));
+			File regionFolder = nmsWorldServer.getWorld().getWorldFolder();
+			if (nmsWorldServer instanceof SecondaryWorldServer) {
+				regionFolder = new File(regionFolder, "DIM"+nmsWorldServer.dimension);
+			}
+			chunkLoaderFieldSetter.invokeExact(cps, new OptimizedChunkRegionLoader(regionFolder, MinecraftServer.getServer().getDataConverterManager()));
 			cps.chunks = new CachedChunkMap();
 		} catch (Throwable t) {
 			t.printStackTrace();
