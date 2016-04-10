@@ -13,9 +13,8 @@ public class TileEntityCanUpdateSkipArrayList extends ArrayList<TileEntity> {
 	public boolean add(TileEntity tileentity) {
 		if (TileEntityCanUpdateCheck.canUpdate(tileentity)) {
 			super.add(tileentity);
-			return true;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
