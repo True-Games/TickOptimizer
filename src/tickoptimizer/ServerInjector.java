@@ -2,25 +2,19 @@ package tickoptimizer;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
 import net.minecraft.server.v1_9_R1.Block;
 import net.minecraft.server.v1_9_R1.Blocks;
 import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.BlockDispenser;
 import net.minecraft.server.v1_9_R1.EntityTypes;
 import net.minecraft.server.v1_9_R1.IBlockData;
-import net.minecraft.server.v1_9_R1.IDispenseBehavior;
 import net.minecraft.server.v1_9_R1.Item;
 import net.minecraft.server.v1_9_R1.ItemBlock;
-import net.minecraft.server.v1_9_R1.ItemBucket;
 import net.minecraft.server.v1_9_R1.Items;
-import net.minecraft.server.v1_9_R1.Material;
 import net.minecraft.server.v1_9_R1.MinecraftKey;
 import net.minecraft.server.v1_9_R1.MinecraftServer;
-import net.minecraft.server.v1_9_R1.RegistryDefault;
 import net.minecraft.server.v1_9_R1.TileEntity;
 import net.minecraft.server.v1_9_R1.UserCache;
 
@@ -29,13 +23,7 @@ import org.bukkit.Bukkit;
 import tickoptimizer.usercache.OptimizedUserCache;
 import tickoptimizer.utils.Utils;
 import tickoptimizer.world.block.InjectTEBlockBeacon;
-import tickoptimizer.world.block.InjectTEBlockEnderChest;
-import tickoptimizer.world.block.InjectTEBlockNormalChest;
-import tickoptimizer.world.block.InjectTEBlockTrappedChest;
-import tickoptimizer.world.block.OptimizedBlockFlowing;
-import tickoptimizer.world.tileentity.MovedSoundTileEntityChest;
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
-import tickoptimizer.world.tileentity.OptimizedTileEntityEnderChest;
 
 public class ServerInjector {
 
@@ -51,32 +39,11 @@ public class ServerInjector {
 		registerTileEntity("Beacon", OptimizedTileEntityBeacon.class);
 		registerBlock(138, "beacon", new InjectTEBlockBeacon());
 
-		registerTileEntity("Chest", MovedSoundTileEntityChest.class);
-		registerBlock(54, "chest", new InjectTEBlockNormalChest());
-		registerBlock(146, "trapped_chest", new InjectTEBlockTrappedChest());
-
-		registerTileEntity("EnderChest", OptimizedTileEntityEnderChest.class);
-		registerBlock(130, "ender_chest", new InjectTEBlockEnderChest());
-
-		OptimizedBlockFlowing blockFlowingWater = new OptimizedBlockFlowing(Material.WATER, true);
-		registerBlock(8, "flowing_water", blockFlowingWater);
-		OptimizedBlockFlowing blockFlowingLava = new OptimizedBlockFlowing(Material.LAVA, false);
-		registerBlock(10, "flowing_lava", blockFlowingLava);
-
-		fixItemBucketRef("water_bucket", blockFlowingWater);
-		fixItemBucketRef("lava_bucket", blockFlowingLava);
-
 		fixBlocksRefs();
 		fixItemsRefs();
-		fixDispenserRegistry();
 
 		Bukkit.resetRecipes();
 	}
-
-	private static void fixItemBucketRef(String itemname, Block newBlockRef) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		Utils.setAccessible(ItemBucket.class.getDeclaredField("a")).set(Item.d(itemname), newBlockRef);
-	}
-
 
 	@SuppressWarnings("unchecked")
 	private static void registerTileEntity(String name, Class<? extends TileEntity> entityClass) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
@@ -130,16 +97,6 @@ public class ServerInjector {
 				if (item != newitem) {
 					Utils.setFinalField(field, null, newitem);
 				}
-			}
-		}
-	}
-
-	private static final void fixDispenserRegistry() {
-		RegistryDefault<Item, IDispenseBehavior> registry = BlockDispenser.REGISTRY;
-		for (Item item : new ArrayList<Item>(registry.keySet())) {
-			Item newItem = Item.getById(Item.getId(item));
-			if (item != newItem) {
-				registry.a(newItem, registry.get(item));
 			}
 		}
 	}
