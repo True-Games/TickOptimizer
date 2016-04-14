@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 
 import tickoptimizer.utils.Utils;
+import tickoptimizer.utils.collections.HashSetFakeListImpl;
 
 public class WorldInjector {
 

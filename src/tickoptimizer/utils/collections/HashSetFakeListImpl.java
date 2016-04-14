@@ -1,4 +1,4 @@
-package tickoptimizer.world;
+package tickoptimizer.utils.collections;
 
 import java.util.Collection;
 import java.util.HashSet;
