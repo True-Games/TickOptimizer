@@ -12,11 +12,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 
 import tickoptimizer.utils.Utils;
+import tickoptimizer.utils.collections.HashSetBackedArrayList;
 import tickoptimizer.utils.collections.HashSetFakeListImpl;
 
 public class WorldInjector {
 
-	private final static MethodHandle tileEntityListFieldSetter = Utils.getFieldSetter(World.class, "tileEntityList", HashSetFakeListImpl.class);
+	private final static MethodHandle tileEntityListTickFieldSetter = Utils.getFieldSetter(World.class, "tileEntityListTick", HashSetBackedArrayList.class);
 	private final static MethodHandle managedPlayersPlayersFieldSetter = Utils.getFieldSetter(PlayerChunkMap.class, "managedPlayers", HashSetFakeListImpl.class);
 	private final static MethodHandle navigationListener = Utils.getFieldSetter(World.class, "t", OptimizedNavigationListener.class);
 
@@ -24,7 +25,7 @@ public class WorldInjector {
 		try {
 			WorldServer nmsWorldServer = ((CraftWorld) world).getHandle();
 			World nmsWorld = nmsWorldServer;
-			tileEntityListFieldSetter.invoke(nmsWorld, new HashSetFakeListImpl<TileEntity>());
+			tileEntityListTickFieldSetter.invoke(nmsWorld, new HashSetBackedArrayList<TileEntity>());
 			navigationListener.invokeExact(nmsWorld, new OptimizedNavigationListener());
 			PlayerChunkMap chunkmap = nmsWorldServer.getPlayerChunkMap();
 			managedPlayersPlayersFieldSetter.invokeExact(chunkmap, new HashSetFakeListImpl<EntityPlayer>());
