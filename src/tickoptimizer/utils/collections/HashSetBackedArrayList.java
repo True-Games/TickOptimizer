@@ -2,16 +2,17 @@ package tickoptimizer.utils.collections;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
+import com.google.common.collect.HashMultiset;
+
 public class HashSetBackedArrayList<E> implements List<E> {
 
-	protected final ArrayList<E> arraylist = new ArrayList<>();
-	protected final HashSet<E> hashset = new HashSet<>();
+	protected final ArrayList<E> arraylist = new ArrayList<E>();
+	protected final HashMultiset<E> hashset = HashMultiset.create();
 
 	@Override
 	public int size() {
