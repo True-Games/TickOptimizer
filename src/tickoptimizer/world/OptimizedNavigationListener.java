@@ -4,23 +4,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.server.v1_9_R1.BlockPosition;
-import net.minecraft.server.v1_9_R1.Entity;
-import net.minecraft.server.v1_9_R1.EntityInsentient;
-import net.minecraft.server.v1_9_R1.IBlockData;
-import net.minecraft.server.v1_9_R1.NavigationAbstract;
-import net.minecraft.server.v1_9_R1.NavigationListener;
-import net.minecraft.server.v1_9_R1.PathEntity;
-import net.minecraft.server.v1_9_R1.PathPoint;
-import net.minecraft.server.v1_9_R1.World;
+import net.minecraft.server.v1_9_R2.BlockPosition;
+import net.minecraft.server.v1_9_R2.Entity;
+import net.minecraft.server.v1_9_R2.EntityInsentient;
+import net.minecraft.server.v1_9_R2.IBlockData;
+import net.minecraft.server.v1_9_R2.NavigationAbstract;
+import net.minecraft.server.v1_9_R2.NavigationListener;
+import net.minecraft.server.v1_9_R2.PathEntity;
+import net.minecraft.server.v1_9_R2.PathPoint;
+import net.minecraft.server.v1_9_R2.World;
 
 public class OptimizedNavigationListener extends NavigationListener {
 
 	private final Map<EntityInsentient, NavigationAbstract> navigators = new LinkedHashMap<EntityInsentient, NavigationAbstract>();
-
-	@Override
-	public void a(NavigationAbstract navigationabstract) {
-    }
 
 	@Override
 	public void a(final World world, final BlockPosition blockPosition, final IBlockData blockData, final IBlockData blockData2, final int n) {
