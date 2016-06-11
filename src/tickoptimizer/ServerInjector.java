@@ -5,18 +5,18 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.minecraft.server.v1_9_R2.Block;
-import net.minecraft.server.v1_9_R2.Blocks;
-import net.minecraft.server.v1_9_R2.Entity;
-import net.minecraft.server.v1_9_R2.EntityTypes;
-import net.minecraft.server.v1_9_R2.IBlockData;
-import net.minecraft.server.v1_9_R2.Item;
-import net.minecraft.server.v1_9_R2.ItemBlock;
-import net.minecraft.server.v1_9_R2.Items;
-import net.minecraft.server.v1_9_R2.MinecraftKey;
-import net.minecraft.server.v1_9_R2.MinecraftServer;
-import net.minecraft.server.v1_9_R2.TileEntity;
-import net.minecraft.server.v1_9_R2.UserCache;
+import net.minecraft.server.v1_10_R1.Block;
+import net.minecraft.server.v1_10_R1.Blocks;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.EntityTypes;
+import net.minecraft.server.v1_10_R1.IBlockData;
+import net.minecraft.server.v1_10_R1.Item;
+import net.minecraft.server.v1_10_R1.ItemBlock;
+import net.minecraft.server.v1_10_R1.Items;
+import net.minecraft.server.v1_10_R1.MinecraftKey;
+import net.minecraft.server.v1_10_R1.MinecraftServer;
+import net.minecraft.server.v1_10_R1.TileEntity;
+import net.minecraft.server.v1_10_R1.UserCache;
 
 import org.bukkit.Bukkit;
 

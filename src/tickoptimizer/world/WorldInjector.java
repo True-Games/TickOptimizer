@@ -2,14 +2,14 @@ package tickoptimizer.world;
 
 import java.lang.invoke.MethodHandle;
 
-import net.minecraft.server.v1_9_R2.EntityPlayer;
-import net.minecraft.server.v1_9_R2.PlayerChunkMap;
-import net.minecraft.server.v1_9_R2.TileEntity;
-import net.minecraft.server.v1_9_R2.World;
-import net.minecraft.server.v1_9_R2.WorldServer;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.PlayerChunkMap;
+import net.minecraft.server.v1_10_R1.TileEntity;
+import net.minecraft.server.v1_10_R1.World;
+import net.minecraft.server.v1_10_R1.WorldServer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
 
 import tickoptimizer.utils.Utils;
 import tickoptimizer.utils.collections.HashSetBackedArrayList;

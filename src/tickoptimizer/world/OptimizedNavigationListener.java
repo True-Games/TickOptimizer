@@ -4,15 +4,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.server.v1_9_R2.BlockPosition;
-import net.minecraft.server.v1_9_R2.Entity;
-import net.minecraft.server.v1_9_R2.EntityInsentient;
-import net.minecraft.server.v1_9_R2.IBlockData;
-import net.minecraft.server.v1_9_R2.NavigationAbstract;
-import net.minecraft.server.v1_9_R2.NavigationListener;
-import net.minecraft.server.v1_9_R2.PathEntity;
-import net.minecraft.server.v1_9_R2.PathPoint;
-import net.minecraft.server.v1_9_R2.World;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.Entity;
+import net.minecraft.server.v1_10_R1.EntityInsentient;
+import net.minecraft.server.v1_10_R1.IBlockData;
+import net.minecraft.server.v1_10_R1.NavigationAbstract;
+import net.minecraft.server.v1_10_R1.NavigationListener;
+import net.minecraft.server.v1_10_R1.PathEntity;
+import net.minecraft.server.v1_10_R1.PathPoint;
+import net.minecraft.server.v1_10_R1.World;
 
 public class OptimizedNavigationListener extends NavigationListener {
 

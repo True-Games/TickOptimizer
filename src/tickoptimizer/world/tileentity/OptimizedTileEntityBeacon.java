@@ -2,17 +2,17 @@ package tickoptimizer.world.tileentity;
 
 import java.util.List;
 
-import net.minecraft.server.v1_9_R2.AchievementList;
-import net.minecraft.server.v1_9_R2.AxisAlignedBB;
-import net.minecraft.server.v1_9_R2.Block;
-import net.minecraft.server.v1_9_R2.BlockPosition;
-import net.minecraft.server.v1_9_R2.Blocks;
-import net.minecraft.server.v1_9_R2.EntityHuman;
-import net.minecraft.server.v1_9_R2.MobEffect;
-import net.minecraft.server.v1_9_R2.MobEffectList;
-import net.minecraft.server.v1_9_R2.MobEffects;
-import net.minecraft.server.v1_9_R2.NBTTagCompound;
-import net.minecraft.server.v1_9_R2.TileEntityBeacon;
+import net.minecraft.server.v1_10_R1.AchievementList;
+import net.minecraft.server.v1_10_R1.AxisAlignedBB;
+import net.minecraft.server.v1_10_R1.Block;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.Blocks;
+import net.minecraft.server.v1_10_R1.EntityHuman;
+import net.minecraft.server.v1_10_R1.MobEffect;
+import net.minecraft.server.v1_10_R1.MobEffectList;
+import net.minecraft.server.v1_10_R1.MobEffects;
+import net.minecraft.server.v1_10_R1.NBTTagCompound;
+import net.minecraft.server.v1_10_R1.TileEntityBeacon;
 
 public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 

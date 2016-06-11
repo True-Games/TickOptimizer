@@ -1,9 +1,9 @@
 package tickoptimizer.world.block;
 
 import tickoptimizer.world.tileentity.OptimizedTileEntityBeacon;
-import net.minecraft.server.v1_9_R2.BlockBeacon;
-import net.minecraft.server.v1_9_R2.TileEntity;
-import net.minecraft.server.v1_9_R2.World;
+import net.minecraft.server.v1_10_R1.BlockBeacon;
+import net.minecraft.server.v1_10_R1.TileEntity;
+import net.minecraft.server.v1_10_R1.World;
 
 public class InjectTEBlockBeacon extends BlockBeacon {
 
