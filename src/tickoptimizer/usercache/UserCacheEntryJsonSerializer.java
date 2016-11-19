@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
-import net.minecraft.server.v1_10_R1.UserCache;
+import net.minecraft.server.v1_11_R1.UserCache;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

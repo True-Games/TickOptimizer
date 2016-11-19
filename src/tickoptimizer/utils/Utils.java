@@ -36,4 +36,28 @@ public class Utils {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <V> V getFieldValue(Object obj, Class<?> classIn, String fieldName) {
+		try {
+			return (V) setAccessible(classIn.getDeclaredField(fieldName)).get(obj);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			Bukkit.shutdown();
+		}
+		return null;
+	}
+
+	public static void setFieldValue(Object obj, String name, Object newValue) throws IllegalArgumentException, IllegalAccessException {
+		Class<?> clazz = obj.getClass();
+		do {
+			for (Field field : clazz.getDeclaredFields()) {
+				if (field.getName().equals(name)) {
+					setAccessible(field).set(obj, newValue);
+					return;
+				}
+			}
+		} while ((clazz = clazz.getSuperclass()) != null);
+		throw new RuntimeException("Can't find field "+name);
+	}
+
 }

@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-import net.minecraft.server.v1_10_R1.EntityHuman;
-import net.minecraft.server.v1_10_R1.MinecraftServer;
-import net.minecraft.server.v1_10_R1.UserCache;
+import net.minecraft.server.v1_11_R1.EntityHuman;
+import net.minecraft.server.v1_11_R1.MinecraftServer;
+import net.minecraft.server.v1_11_R1.UserCache;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;

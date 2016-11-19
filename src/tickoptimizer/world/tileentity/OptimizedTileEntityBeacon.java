@@ -2,35 +2,28 @@ package tickoptimizer.world.tileentity;
 
 import java.util.List;
 
-import net.minecraft.server.v1_10_R1.AchievementList;
-import net.minecraft.server.v1_10_R1.AxisAlignedBB;
-import net.minecraft.server.v1_10_R1.Block;
-import net.minecraft.server.v1_10_R1.BlockPosition;
-import net.minecraft.server.v1_10_R1.Blocks;
-import net.minecraft.server.v1_10_R1.EntityHuman;
-import net.minecraft.server.v1_10_R1.MobEffect;
-import net.minecraft.server.v1_10_R1.MobEffectList;
-import net.minecraft.server.v1_10_R1.MobEffects;
-import net.minecraft.server.v1_10_R1.NBTTagCompound;
-import net.minecraft.server.v1_10_R1.TileEntityBeacon;
+import net.minecraft.server.v1_11_R1.AchievementList;
+import net.minecraft.server.v1_11_R1.AxisAlignedBB;
+import net.minecraft.server.v1_11_R1.Block;
+import net.minecraft.server.v1_11_R1.BlockPosition;
+import net.minecraft.server.v1_11_R1.Blocks;
+import net.minecraft.server.v1_11_R1.EntityHuman;
+import net.minecraft.server.v1_11_R1.MobEffect;
+import net.minecraft.server.v1_11_R1.TileEntityBeacon;
 
 public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 
-	private int levels = 0;
-	private MobEffectList primary;
-	private MobEffectList secondary;
-
 	@Override
-	public void m() {
+	public void n() {
 		addEffects();
 		checkStructure();
 	}
 
 	private void addEffects() {
-		if (this.levels > 0 && this.primary != null) {
+		if (this.levels > 0 && this.primaryEffect != null) {
 			final double aoe = this.levels * 10 + 10;
 			byte amplifier = 0;
-			if (this.levels >= 4 && this.primary == this.secondary) {
+			if (this.levels >= 4 && this.primaryEffect == this.secondaryEffect) {
 				amplifier = 1;
 			}
 			final int duration = (9 + this.levels * 2) * 20;
@@ -40,11 +33,11 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 			final AxisAlignedBB axisalignedbb = new AxisAlignedBB(x, y, z, (x + 1), (y + 1), (z + 1)).grow(aoe, aoe, aoe).a(0.0, this.world.getHeight(), 0.0);
 			final List<EntityHuman> list = this.world.a(EntityHuman.class, axisalignedbb);
 			for (final EntityHuman entityhuman : list) {
-				entityhuman.addEffect(new MobEffect(this.primary, duration, amplifier, true, true));
+				entityhuman.addEffect(new MobEffect(this.primaryEffect, duration, amplifier, true, true));
 			}
-			if (this.levels >= 4 && this.primary != this.secondary && this.secondary != null) {
+			if (this.levels >= 4 && this.primaryEffect != this.secondaryEffect && this.secondaryEffect != null) {
 				for (final EntityHuman entityhuman : list) {
-					entityhuman.addEffect(new MobEffect(this.secondary, duration, 0, true, true));
+					entityhuman.addEffect(new MobEffect(this.secondaryEffect, duration, 0, true, true));
 				}
 			}
 		}
@@ -88,74 +81,6 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public int getProperty(final int key) {
-		switch (key) {
-			case 0: {
-				return this.levels;
-			}
-			case 1: {
-				return MobEffectList.getId(this.primary);
-			}
-			case 2: {
-				return MobEffectList.getId(this.secondary);
-			}
-			default: {
-				return 0;
-			}
-		}
-	}
-
-	@Override
-	public void setProperty(final int key, final int value) {
-		switch (key) {
-			case 0: {
-				this.levels = value;
-				break;
-			}
-			case 1: {
-				this.primary = this.getByIdAndValidate(value);
-				break;
-			}
-			case 2: {
-				this.secondary = this.getByIdAndValidate(value);
-				break;
-			}
-		}
-	}
-
-	@Override
-	public void a(final NBTTagCompound nbttagcompound) {
-		super.a(nbttagcompound);
-		this.primary = this.getByIdAndValidate(nbttagcompound.getInt("Primary"));
-		this.secondary = this.getByIdAndValidate(nbttagcompound.getInt("Secondary"));
-		this.levels = nbttagcompound.getInt("Levels");
-	}
-
-	@Override
-	public NBTTagCompound save(final NBTTagCompound nbttagcompound) {
-		super.save(nbttagcompound);
-		nbttagcompound.setInt("Primary", MobEffectList.getId(this.primary));
-		nbttagcompound.setInt("Secondary", MobEffectList.getId(this.secondary));
-		nbttagcompound.setInt("Levels", this.levels);
-		return nbttagcompound;
-	}
-
-	private MobEffectList getByIdAndValidate(int input) {
-		MobEffectList effect = MobEffectList.fromId(input);
-		if (
-			effect == MobEffects.FASTER_MOVEMENT ||
-			effect == MobEffects.FASTER_DIG ||
-			effect == MobEffects.RESISTANCE ||
-			effect == MobEffects.JUMP ||
-			effect == MobEffects.INCREASE_DAMAGE ||
-			effect == MobEffects.REGENERATION
-		) {
-			return effect;
-		}
-		return null;
 	}
 
 }

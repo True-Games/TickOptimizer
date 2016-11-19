@@ -3,10 +3,10 @@ package tickoptimizer.network;
 import java.lang.invoke.MethodHandle;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_10_R1.NetworkManager;
+import net.minecraft.server.v1_11_R1.NetworkManager;
 import tickoptimizer.utils.Utils;
 
 public class NetworkManagerInjector {
