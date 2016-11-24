@@ -34,7 +34,7 @@ public class ServerInjector {
 	}
 
 	public static void injectRegistry() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		registerTileEntity("Beacon", OptimizedTileEntityBeacon.class);
+		registerTileEntity("beacon", OptimizedTileEntityBeacon.class);
 		registerBlock(138, "beacon", new InjectTEBlockBeacon());
 
 		fixBlocksRefs();
