@@ -7,12 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
-import net.minecraft.server.v1_11_R1.EntityHuman;
-import net.minecraft.server.v1_11_R1.MinecraftServer;
-import net.minecraft.server.v1_11_R1.UserCache;
+import org.spigotmc.SpigotConfig;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
@@ -22,8 +19,9 @@ import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.GameProfileRepository;
 
-import org.spigotmc.SpigotConfig;
-
+import net.minecraft.server.v1_11_R1.EntityHuman;
+import net.minecraft.server.v1_11_R1.MinecraftServer;
+import net.minecraft.server.v1_11_R1.UserCache;
 import tickoptimizer.usercache.DualCache.DualCacheEntry;
 
 public class OptimizedUserCache extends UserCache {
@@ -31,25 +29,23 @@ public class OptimizedUserCache extends UserCache {
 	private static final Gson GSON = new GsonBuilder().registerTypeHierarchyAdapter(UserCacheFileEntry.class, new UserCacheEntryJsonSerializer()).create();
 	private static final UserCacheEntryType type = new UserCacheEntryType();
 
-	private final DualCache<UUID, String, GameProfile> cache;
+	private final DualCache<UUID, String, GameProfile> cache = new DualCache<UUID, String, GameProfile>(SpigotConfig.userCacheCap, 1000L * 60L * 60L * 24L * 30L);
 	private final File userCacheFile;
 
 	public OptimizedUserCache(GameProfileRepository repo, File file) {
 		super(repo, file);
 		this.userCacheFile = file;
-		this.cache = new DualCache<UUID, String, GameProfile>(SpigotConfig.userCacheCap, 1000L * 60L * 60L * 24L * 30L);
 		b();
 	}
 
 	@Override
 	public void a(GameProfile gameProfile) {
-		cache.put(gameProfile.getId(), gameProfile.getName().toLowerCase(Locale.ROOT), gameProfile);
+		cache.put(gameProfile.getId(), gameProfile.getName(), gameProfile);
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public GameProfile getProfile(String name) {
-		String playername = name.toLowerCase(Locale.ROOT);
+	public GameProfile getProfile(String playername) {
 		GameProfile profile = cache.getBySecondaryKey(playername);
 		if (profile != null) {
 			return profile;
@@ -96,7 +92,7 @@ public class OptimizedUserCache extends UserCache {
 			List<UserCacheFileEntry> datalist = GSON.fromJson(reader, type);
 			cache.clear();
 			for (UserCacheFileEntry entry : datalist) {
-				cache.putLoaded(entry.getProfile().getId(), entry.getProfile().getName().toLowerCase(Locale.ROOT), entry.getProfile(), entry.getExpireDate());
+				cache.putLoaded(entry.getProfile().getId(), entry.getProfile().getName(), entry.getProfile(), entry.getExpireDate());
 			}
 		} catch (IOException exception) {
 		}

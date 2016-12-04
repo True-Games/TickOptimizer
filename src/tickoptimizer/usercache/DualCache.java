@@ -51,12 +51,13 @@ public class DualCache<PK, SK, V> {
 			if (System.currentTimeMillis() > entry.expiretime) {
 				remove(entry.pk);
 				return null;
-			}
-			if (entry != null) {
+			} else {
 				getByPrimaryKey(entry.pk);
+				return entry.value;
 			}
+		} else {
+			return null;
 		}
-		return entry != null ? entry.value : null;
 	}
 
 	public void put(PK primaryKey, SK secondaryKey, V value) {
