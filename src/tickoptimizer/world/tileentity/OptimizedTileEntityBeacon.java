@@ -19,19 +19,15 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 		checkStructure();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void addEffects() {
 		if (this.levels > 0 && this.primaryEffect != null) {
-			final double aoe = this.levels * 10 + 10;
 			byte amplifier = 0;
 			if (this.levels >= 4 && this.primaryEffect == this.secondaryEffect) {
 				amplifier = 1;
 			}
 			final int duration = (9 + this.levels * 2) * 20;
-			final int x = this.position.getX();
-			final int y = this.position.getY();
-			final int z = this.position.getZ();
-			final AxisAlignedBB axisalignedbb = new AxisAlignedBB(x, y, z, (x + 1), (y + 1), (z + 1)).grow(aoe, aoe, aoe).a(0.0, this.world.getHeight(), 0.0);
-			final List<EntityHuman> list = this.world.a(EntityHuman.class, axisalignedbb);
+			final List<EntityHuman> list = getHumansInRange();
 			for (final EntityHuman entityhuman : list) {
 				entityhuman.addEffect(new MobEffect(this.primaryEffect, duration, amplifier, true, true));
 			}
