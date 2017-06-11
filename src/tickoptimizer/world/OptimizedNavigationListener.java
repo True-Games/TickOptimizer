@@ -1,22 +1,22 @@
 package tickoptimizer.world;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.server.v1_11_R1.BlockPosition;
-import net.minecraft.server.v1_11_R1.Entity;
-import net.minecraft.server.v1_11_R1.EntityInsentient;
-import net.minecraft.server.v1_11_R1.IBlockData;
-import net.minecraft.server.v1_11_R1.NavigationAbstract;
-import net.minecraft.server.v1_11_R1.NavigationListener;
-import net.minecraft.server.v1_11_R1.PathEntity;
-import net.minecraft.server.v1_11_R1.PathPoint;
-import net.minecraft.server.v1_11_R1.World;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.Entity;
+import net.minecraft.server.v1_12_R1.EntityInsentient;
+import net.minecraft.server.v1_12_R1.IBlockData;
+import net.minecraft.server.v1_12_R1.NavigationAbstract;
+import net.minecraft.server.v1_12_R1.NavigationListener;
+import net.minecraft.server.v1_12_R1.PathEntity;
+import net.minecraft.server.v1_12_R1.PathPoint;
+import net.minecraft.server.v1_12_R1.World;
 
 public class OptimizedNavigationListener extends NavigationListener {
 
-	private final Map<EntityInsentient, NavigationAbstract> navigators = new LinkedHashMap<EntityInsentient, NavigationAbstract>();
+	private final Object2ObjectOpenHashMap<EntityInsentient, NavigationAbstract> navigators = new Object2ObjectOpenHashMap<EntityInsentient, NavigationAbstract>(1000);
 
 	@Override
 	public void a(final World world, final BlockPosition blockPosition, final IBlockData blockData, final IBlockData blockData2, final int n) {
@@ -25,8 +25,8 @@ public class OptimizedNavigationListener extends NavigationListener {
 		}
 		for (Entry<EntityInsentient, NavigationAbstract> entry : navigators.entrySet()) {
 			NavigationAbstract navigation = entry.getValue();
-			if (!navigation.i()) {
-				PathEntity pathentity = navigation.k();
+			if (!navigation.j()) {
+				PathEntity pathentity = navigation.l();
 				if (pathentity != null && !pathentity.b()) {
 					if (pathentity.d() != 0) {
 						PathPoint pathpoint = pathentity.c();
@@ -38,7 +38,7 @@ public class OptimizedNavigationListener extends NavigationListener {
 								(pathpoint.c + insentient.locZ) / 2.0
 							) < (pathentity.d() - pathentity.e()) * (pathentity.d() - pathentity.e())
 						) {
-							navigation.j();
+							navigation.k();
 						}
 					}
 				}

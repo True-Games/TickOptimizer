@@ -2,14 +2,16 @@ package tickoptimizer.world.tileentity;
 
 import java.util.List;
 
-import net.minecraft.server.v1_11_R1.AchievementList;
-import net.minecraft.server.v1_11_R1.AxisAlignedBB;
-import net.minecraft.server.v1_11_R1.Block;
-import net.minecraft.server.v1_11_R1.BlockPosition;
-import net.minecraft.server.v1_11_R1.Blocks;
-import net.minecraft.server.v1_11_R1.EntityHuman;
-import net.minecraft.server.v1_11_R1.MobEffect;
-import net.minecraft.server.v1_11_R1.TileEntityBeacon;
+import net.minecraft.server.v1_12_R1.AxisAlignedBB;
+import net.minecraft.server.v1_12_R1.Block;
+import net.minecraft.server.v1_12_R1.BlockPosition;
+import net.minecraft.server.v1_12_R1.Blocks;
+import net.minecraft.server.v1_12_R1.CriterionTriggers;
+import net.minecraft.server.v1_12_R1.EntityHuman;
+import net.minecraft.server.v1_12_R1.EntityPlayer;
+import net.minecraft.server.v1_12_R1.MobEffect;
+import net.minecraft.server.v1_12_R1.MobEffectList;
+import net.minecraft.server.v1_12_R1.TileEntityBeacon;
 
 public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 
@@ -28,14 +30,16 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 			}
 			final int duration = (9 + this.levels * 2) * 20;
 			final List<EntityHuman> list = getHumansInRange();
-			for (final EntityHuman entityhuman : list) {
-				entityhuman.addEffect(new MobEffect(this.primaryEffect, duration, amplifier, true, true));
-			}
+			applyEffect(list, this.primaryEffect, duration, amplifier);
 			if (this.levels >= 4 && this.primaryEffect != this.secondaryEffect && this.secondaryEffect != null) {
-				for (final EntityHuman entityhuman : list) {
-					entityhuman.addEffect(new MobEffect(this.secondaryEffect, duration, 0, true, true));
-				}
+				applyEffect(list, this.secondaryEffect, duration, 0);
 			}
+		}
+	}
+
+	private void applyEffect(final List<EntityHuman> list, final MobEffectList effects, final int duration, final int amplifier) {
+		for (final EntityHuman entityhuman : list) {
+			entityhuman.addEffect(new MobEffect(effects, duration, amplifier, true, true));
 		}
 	}
 
@@ -62,9 +66,9 @@ public class OptimizedTileEntityBeacon extends TileEntityBeacon {
 			}
 			this.levels++;
 		}
-		if (this.levels == 4 && prevLevels < this.levels) {
-			for (final EntityHuman entityhuman : (List<EntityHuman>) this.world.a(EntityHuman.class, new AxisAlignedBB((double) beaconX, (double) beaconY, (double) beaconZ, (double) beaconX, (double) (beaconY - 4), (double) beaconZ).grow(10.0, 5.0, 10.0))) {
-				entityhuman.b(AchievementList.K);
+		if (prevLevels < this.levels) {
+			for (final EntityPlayer entityplayer : this.world.a(EntityPlayer.class, new AxisAlignedBB(beaconX, beaconY, beaconZ, beaconX, beaconY - 4, beaconZ).grow(10.0, 5.0, 10.0))) {
+				CriterionTriggers.k.a(entityplayer, this);
 			}
 		}
 	}
